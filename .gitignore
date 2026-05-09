@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual env
+venv/
+env/
+.venv/
+.conda/
+
+# Data & models (build artefacts)
+data/*.npy
+checkpoints/*.pt
+checkpoints/*.pth
+
+# Assets (generated)
+assets/*.png
+assets/*.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs & experiment tracking
+*.log
+wandb/
+lightning_logs/
+
+# Sensitive
+.env
+*.key
+
+# Keep directory structure
+!data/.gitkeep
+!checkpoints/.gitkeep
