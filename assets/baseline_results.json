@@ -1,0 +1,125 @@
+{
+  "pca": [
+    {
+      "n_components": 2,
+      "mse": 0.19082681834697723,
+      "bandwidth": 64.0
+    },
+    {
+      "n_components": 4,
+      "mse": 0.17495085299015045,
+      "bandwidth": 128.0
+    },
+    {
+      "n_components": 8,
+      "mse": 0.07731230556964874,
+      "bandwidth": 256.0
+    },
+    {
+      "n_components": 16,
+      "mse": 6.702849538429978e-15,
+      "bandwidth": 512.0
+    }
+  ],
+  "ae": [
+    {
+      "latent_dim": 2,
+      "mse": 0.15822672843933105,
+      "bandwidth": 64.0
+    },
+    {
+      "latent_dim": 4,
+      "mse": 0.0720251053571701,
+      "bandwidth": 128.0
+    },
+    {
+      "latent_dim": 8,
+      "mse": 0.02274545654654503,
+      "bandwidth": 256.0
+    },
+    {
+      "latent_dim": 16,
+      "mse": 2.1947037964764604e-07,
+      "bandwidth": 512.0
+    },
+    {
+      "latent_dim": 32,
+      "mse": 7.301147775251593e-07,
+      "bandwidth": 1024.0
+    }
+  ],
+  "digital": [
+    {
+      "latent_dim": 4,
+      "bits_per_dim": 2,
+      "mse": 0.17311333119869232,
+      "bandwidth": 8.0
+    },
+    {
+      "latent_dim": 8,
+      "bits_per_dim": 2,
+      "mse": 0.08341939002275467,
+      "bandwidth": 16.0
+    },
+    {
+      "latent_dim": 16,
+      "bits_per_dim": 2,
+      "mse": 0.03936884179711342,
+      "bandwidth": 32.0
+    },
+    {
+      "latent_dim": 4,
+      "bits_per_dim": 4,
+      "mse": 0.1174115315079689,
+      "bandwidth": 16.0
+    },
+    {
+      "latent_dim": 8,
+      "bits_per_dim": 4,
+      "mse": 0.041208650916814804,
+      "bandwidth": 32.0
+    },
+    {
+      "latent_dim": 16,
+      "bits_per_dim": 4,
+      "mse": 0.003920475486665964,
+      "bandwidth": 64.0
+    },
+    {
+      "latent_dim": 4,
+      "bits_per_dim": 6,
+      "mse": 0.10884717851877213,
+      "bandwidth": 24.0
+    },
+    {
+      "latent_dim": 8,
+      "bits_per_dim": 6,
+      "mse": 0.036814138293266296,
+      "bandwidth": 48.0
+    },
+    {
+      "latent_dim": 16,
+      "bits_per_dim": 6,
+      "mse": 0.0008472779882140458,
+      "bandwidth": 96.0
+    },
+    {
+      "latent_dim": 4,
+      "bits_per_dim": 8,
+      "mse": 0.1071576178073883,
+      "bandwidth": 32.0
+    },
+    {
+      "latent_dim": 8,
+      "bits_per_dim": 8,
+      "mse": 0.0327199250459671,
+      "bandwidth": 64.0
+    },
+    {
+      "latent_dim": 16,
+      "bits_per_dim": 8,
+      "mse": 0.00013817183207720518,
+      "bandwidth": 128.0
+    }
+  ]
+}

@@ -17,10 +17,6 @@ data/*.npy
 checkpoints/*.pt
 checkpoints/*.pth
 
-# Assets (generated)
-assets/*.png
-assets/*.json
-
 # IDE & Editor
 .vscode/
 .idea/
@@ -43,3 +39,9 @@ lightning_logs/
 # Keep directory structure
 !data/.gitkeep
 !checkpoints/.gitkeep
+
+# Exceptions — files needed for reproducibility
+!data/mpe_observations.npy
+!checkpoints/ae_ld8.pt
+!checkpoints/vae_ld8_b0.01.pt
+!checkpoints/vae_ld8_b1.0.pt
