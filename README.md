@@ -6,6 +6,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
 [![PyTorch 2.x](https://img.shields.io/badge/PyTorch-2.x-red)](https://pytorch.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![README in Chinese](https://img.shields.io/badge/README-中文-red)](README_zh.md)
 
 ## TL;DR
 
@@ -184,6 +185,7 @@ wasting compute on configurations that the benchmark already shows are ineffecti
 ```text
 ObsCodec/
 ├── README.md
+├── README_zh.md
 ├── requirements.txt
 ├── setup.py
 ├── obscodec/
@@ -208,8 +210,10 @@ ObsCodec/
 └── assets/
     ├── *.png
     ├── *_results.json
-    ├── project_blurb.md
-    └── results_summary.md
+    ├── project_blurb.md      (Chinese)
+    ├── project_blurb_en.md   (English)
+    ├── results_summary.md    (English)
+    └── results_summary_zh.md (Chinese)
 ```
 
 Generated `data/*.npy` and `checkpoints/*.pt` files are intentionally not stored

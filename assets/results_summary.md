@@ -18,8 +18,8 @@
 | VQ-VAE | cb256_ld2_cc0.25 | 0.1756 | 7.6 | 8 | — | 72× | 0.71 |
 
 > **RD Efficiency** = 1/(MSE × BW), higher is better. Measures distortion reduction per bit.
-> 参见 Fig. rate_distortion, Fig. pareto_frontier。
-> **核心结论**: β-VAE β=0.01 compresses the latent channel to a **6.4-bit effective information rate** as measured by KL divergence. For reference, the raw observation occupies 576 nominal bits (18 dims × 32-bit float). The factor of ~90× reflects the ratio of raw storage to information-theoretic content — actual deployed compression requires entropy coding and channel modeling.
+> See Fig. rate_distortion, Fig. pareto_frontier.
+> **Key finding**: β-VAE β=0.01 compresses the latent channel to a **6.4-bit effective information rate** as measured by KL divergence. For reference, the raw observation occupies 576 nominal bits (18 dims × 32-bit float). The factor of ~90× reflects the ratio of raw storage to information-theoretic content — actual deployed compression requires entropy coding and channel modeling.
 > β≥0.5 triggers posterior collapse: KL→0, MSE→0.545 (prior variance), rate→0.
 
 ## Table 2: β-VAE LD=8 — Rate-Distortion vs β
@@ -35,7 +35,7 @@
 | 5.0 | 0.5455 | 2.6 | 256 | 0.0 | 0.0000 | ✗ collapsed |
 | 10.0 | 0.5455 | 2.6 | 256 | 0.0 | 0.0000 | ✗ collapsed |
 
-> β≤0.01 为有效信息瓶颈区间，β≥0.5 全面坍塌。参见 Fig. kl_collapse, Fig. ablation_heatmap, Fig. latent_space。
+> β≤0.01: effective information bottleneck regime. β≥0.5: full posterior collapse across all configurations. See Fig. kl_collapse, Fig. ablation_heatmap, Fig. latent_space.
 
 ## Table 3: VQ-VAE Commitment Cost Sweep (LD=8, CB=256)
 
@@ -50,7 +50,7 @@
 | 2.0 | 0.2083 | 6.8 | 8 | 11.3% | 0.60 | — underused |
 | 5.0 | 0.2198 | 6.6 | 8 | 8.2% | 0.57 | — underused |
 
-> VQ-VAE 的 'β' 维度（commitment cost 类比 β-VAE 的 β）。LD=8 下码本利用率始终 ≤14%，远不及 LD=2 的 100%——低维空间更易填满离散码本。参见 Fig. vqvae_usage_heatmap。
+> Commitment cost serves as VQ-VAE's analogue to β-VAE's β — controlling the trade-off between codebook adherence and reconstruction fidelity. At LD=8, codebook usage never exceeds 14%, in contrast to 100% at LD=2 — low-dimensional spaces saturate discrete codebooks more efficiently. See Fig. vqvae_usage_heatmap.
 
 ## Table 4: Pareto Ranking — Best MSE at Key Bandwidths
 
@@ -63,6 +63,6 @@
 | β-VAE β=0.01 | 0.1803 | 7.4 | 0.1202 | 9.2 | 0.0873 | 10.6 |
 | β-VAE β=0.1 | 0.3200 | 4.9 | 0.3209 | 4.9 | 0.3205 | 4.9 |
 
-> **后验坍塌率**: β≥0.5 时 100% 的配置KL<0.05——编码器完全退化为先验N(0,I)。参见 Fig. kl_collapse, Fig. latent_space。
+> **Posterior collapse rate**: 100% of configurations with β≥0.5 show KL<0.05 — the encoder degenerates completely to the prior N(0,I). See Fig. kl_collapse, Fig. latent_space.
 >
-> **注**: VQ-VAE 不在此表，因其工作在 5–10 bit 带宽区间（见 Table 3），与 64–256 bit 区间的方法不可直接对比。VQ-VAE 最佳点 (cb256_ld2_cc0.25, 8 bits, MSE=0.1756) 见 Table 1。
+> **Note**: VQ-VAE is excluded from this table because it operates in the 5–10 bit bandwidth regime (see Table 3), which is not directly comparable to the 64–256 bit methods listed here. VQ-VAE's best point (cb256_ld2_cc0.25, 8 bits, MSE=0.1756) is shown in Table 1.
