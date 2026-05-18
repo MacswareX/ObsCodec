@@ -11,30 +11,30 @@
 | PCA | n=8 | 0.0773 | 11.1 | 256 | - | 2x | - | 0.05 |
 | Standard AE | LD=8 | 0.0223 | 16.5 | 256 | - | 2x | - | 0.17 |
 | Digital Quant. | LD=16, B=8 | 0.0001 | 38.8 | 128 | - | 4x | - | 58.99 |
-| β-VAE (near-AE) | LD=8, β=0.001 | 0.0363 | 14.4 | 256 | 28.1 | 2x | 20x | 0.11 |
-| β-VAE (semantic bottleneck) | LD=8, β=0.01 | 0.0478 | 13.2 | 256 | 13.3 | 2x | 43x | 0.08 |
-| β-VAE (transition) | LD=8, β=0.1 | 0.1828 | 7.4 | 256 | 2.5 | 2x | 229x | 0.02 |
-| β-VAE (at KL floor) | LD=8, β=1.0 | 0.3458 | 4.6 | 256 | 1.0 | 2x | 566x | 0.01 |
+| β-VAE (near-AE) | LD=8, β=0.001 | 0.0353 | 14.5 | 256 | 28.3 | 2x | 20x | 0.11 |
+| β-VAE (semantic bottleneck) | LD=8, β=0.01 | 0.0474 | 13.2 | 256 | 13.2 | 2x | 44x | 0.08 |
+| β-VAE (transition) | LD=8, β=0.1 | 0.2105 | 6.8 | 256 | 1.9 | 2x | 299x | 0.02 |
+| β-VAE (at KL floor) | LD=8, β=1.0 | 0.5136 | 2.9 | 256 | 0.1 | 2x | 5871x | 0.01 |
 | VQ-VAE | cb512_ld4_cc0.25 | 0.1283 | 8.9 | 9 | - | 64x | - | 0.87 |
 
-**Primary takeaway**: Digital quantization is the strongest pure reconstruction baseline at >=128 nominal bits. β-VAE provides a tunable information rate through the KL divergence, with the free-bits floor (0.1 nats/dim) preventing complete posterior collapse. The semantic bottleneck regime (β=0.01) gives 6–17 effective bits depending on latent dimension.
+**Primary takeaway**: Digital quantization is the strongest pure reconstruction baseline at >=128 nominal bits. β-VAE provides a tunable information rate through the KL divergence, with the free-bits floor (0.01 nats/dim) preventing complete posterior collapse while allowing a 300× KL dynamic range. The semantic bottleneck regime (β=0.01) gives 6–17 effective bits depending on latent dimension.
 
 ## Table 2: β-VAE LD=8 Rate-Distortion Sweep
 
 | β | MSE | PSNR (dB) | Nominal BW | Eff. Rate (bits) | KL (nats) | Regime |
 |---|-----|-----------|------------|------------------|-----------|--------|
-| 0.001 | 0.0363 | 14.4 | 256 | 28.1 | 19.5093 | high-rate |
-| 0.01 | 0.0478 | 13.2 | 256 | 13.3 | 9.2488 | semantic bottleneck |
-| 0.1 | 0.1828 | 7.4 | 256 | 2.5 | 1.7443 | transition |
-| 0.2 | 0.2542 | 5.9 | 256 | 1.6 | 1.1080 | transition |
-| 0.3 | 0.3204 | 4.9 | 256 | 1.1 | 0.7790 | low-rate |
-| 0.5 | 0.3437 | 4.6 | 256 | 1.1 | 0.7287 | low-rate |
-| 1.0 | 0.3458 | 4.6 | 256 | 1.0 | 0.7048 | low-rate |
-| 2.0 | 0.3463 | 4.6 | 256 | 1.0 | 0.7130 | low-rate |
-| 4.0 | 0.3439 | 4.6 | 256 | 1.0 | 0.7082 | low-rate |
-| 5.0 | 0.3470 | 4.6 | 256 | 1.0 | 0.7029 | low-rate |
-| 8.0 | 0.3552 | 4.5 | 256 | 1.0 | 0.6736 | at KL floor |
-| 10.0 | 0.3403 | 4.7 | 256 | 1.0 | 0.6716 | at KL floor |
+| 0.001 | 0.0353 | 14.5 | 256 | 28.3 | 19.6247 | high-rate |
+| 0.01 | 0.0474 | 13.2 | 256 | 13.2 | 9.1738 | semantic bottleneck |
+| 0.1 | 0.2105 | 6.8 | 256 | 1.9 | 1.3347 | transition |
+| 0.2 | 0.2730 | 5.6 | 256 | 1.0 | 0.6676 | low-rate |
+| 0.3 | 0.3653 | 4.4 | 256 | 0.4 | 0.3119 | low-rate |
+| 0.5 | 0.4996 | 3.0 | 256 | 0.1 | 0.0853 | at KL floor |
+| 1.0 | 0.5136 | 2.9 | 256 | 0.1 | 0.0680 | at KL floor |
+| 2.0 | 0.5189 | 2.8 | 256 | 0.1 | 0.0680 | at KL floor |
+| 4.0 | 0.5468 | 2.6 | 256 | 0.1 | 0.0687 | at KL floor |
+| 5.0 | 0.5401 | 2.7 | 256 | 0.1 | 0.0654 | at KL floor |
+| 8.0 | 0.5459 | 2.6 | 256 | 0.1 | 0.0677 | at KL floor |
+| 10.0 | 0.5170 | 2.9 | 256 | 0.1 | 0.0615 | at KL floor |
 
 ## Table 3: VQ-VAE Commitment Cost Sweep (LD=4, CB=128)
 
@@ -58,13 +58,13 @@ EMA codebook updates maintain high codebook usage across commitment cost levels.
 | 8b | - | - | 0.1829 | - | 0.1617 |
 | 16b | - | - | 0.0837 | - | 0.1283 |
 | 32b | - | - | 0.0404 | - | 0.1283 |
-| 64b | 0.1908 | 0.1547 | 0.0041 | 0.1838 | 0.1283 |
-| 128b | 0.1750 | 0.0719 | 0.0001 | 0.0918 | 0.1283 |
-| 256b | 0.0773 | 0.0223 | 0.0001 | 0.0363 | 0.1283 |
+| 64b | 0.1908 | 0.1547 | 0.0041 | 0.1825 | 0.1283 |
+| 128b | 0.1750 | 0.0719 | 0.0001 | 0.0904 | 0.1283 |
+| 256b | 0.0773 | 0.0223 | 0.0001 | 0.0353 | 0.1283 |
 
 ## Interpretation Notes
 
-- **β-VAE posterior collapse behavior**: With the corrected architecture (no tanh on mu, BatchNorm encoder, halved decoder capacity, KL annealing over 50 epochs, free-bits=0.1 nats/dim), the posterior no longer collapses to zero KL. At β ≥ 0.5, KL is pinned to the free-bits floor (~0.1 nats/dim) rather than collapsing to zero — the encoder retains minimal information capacity. The useful operating range (β=0.001–0.1) provides tunable rate-distortion tradeoffs consistent with Higgins et al. (2017) and Burgess et al. (2018). The effective collapse onset has shifted from β=0.5 (old architecture) to β=2.0–4.0 (corrected architecture).
+- **β-VAE posterior collapse behavior**: With the corrected architecture (no tanh on mu, BatchNorm encoder, halved decoder capacity, KL annealing over 50 epochs, free-bits=0.01 nats/dim), the posterior never collapses to zero KL. The KL shows a smooth 300× decline from β=0.001 (KL≈19.5 nats, 28 bits) to β=0.5 (KL≈0.09 nats, 0.1 bits) before reaching the free-bits floor. At β ≥ 1.0, KL stabilizes at ~0.06–0.07 nats (~0.1 effective bits) and MSE approaches the data variance (~0.545), consistent with theoretical expectations for the β→∞ limit. The free-bits floor prevents complete gradient collapse while allowing the KL to span a wide dynamic range. The useful operating range (β=0.001–0.1) provides tunable rate-distortion tradeoffs consistent with Higgins et al. (2017) and Burgess et al. (2018).
 - **VQ-VAE codebook usage**: EMA codebook updates and periodic dead-entry reset keep codebook usage high. Best performance is at lower latent dimensions (LD=2, codebook_size=256) achieving 8-bit discrete latent codes.
 - The KL rate estimate from β-VAE is an information measure; deploying it as an actual channel rate requires entropy coding or packetization.
 - Reconstruction MSE is a proxy metric. A full SemCom-MARL follow-up should validate policy return, coordination success, and robustness under channel noise.

@@ -43,7 +43,7 @@ def main():
             print(f"\n{'='*50}\n{name}")
 
             vae = BetaVAE(obs_dim=obs_dim, latent_dim=ld, beta=beta,
-                          kl_warmup_epochs=50)
+                          kl_warmup_epochs=50, free_bits=0.01)
             out = train_model(vae, train, val, epochs=200, batch_size=256,
                               device=device, model_name=name)
 

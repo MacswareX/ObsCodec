@@ -67,12 +67,14 @@ class BetaVAE(nn.Module):
         beta: float = 1.0,
         hidden_dim: int = 128,
         kl_warmup_epochs: int = 50,
+        free_bits: float = 0.1,
     ):
         super().__init__()
         self.obs_dim = obs_dim
         self.latent_dim = latent_dim
         self.beta = beta
         self.kl_warmup_epochs = kl_warmup_epochs
+        self.free_bits = free_bits
         self.encoder = VAEEncoder(obs_dim, latent_dim, hidden_dim)
         self.decoder = VAEDecoder(latent_dim, obs_dim, hidden_dim=int(hidden_dim * 0.5))
 
@@ -120,7 +122,7 @@ class BetaVAE(nn.Module):
         kl_per_dim = -0.5 * (
             1.0 + self._logvar - self._mu.pow(2) - self._logvar.exp()
         )
-        free_bits = 0.1
+        free_bits = self.free_bits
         kl_per_dim = torch.clamp(kl_per_dim, min=free_bits)
         kl = kl_per_dim.sum(dim=-1).mean()
         return recon_loss + self.kl_weight * kl

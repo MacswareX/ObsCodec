@@ -157,9 +157,10 @@ def main() -> None:
     lines.append(
         "**Primary takeaway**: Digital quantization is the strongest pure "
         "reconstruction baseline at >=128 nominal bits. β-VAE provides a tunable "
-        "information rate through the KL divergence, with the free-bits floor (0.1 "
-        "nats/dim) preventing complete posterior collapse. The semantic bottleneck "
-        "regime (β=0.01) gives 6–17 effective bits depending on latent dimension."
+        "information rate through the KL divergence, with the free-bits floor (0.01 "
+        "nats/dim) preventing complete posterior collapse while allowing a 300× KL "
+        "dynamic range. The semantic bottleneck regime (β=0.01) gives 6–17 effective "
+        "bits depending on latent dimension."
     )
     lines.append("")
 
@@ -176,13 +177,14 @@ def main() -> None:
             record = next(r for r in vae if r["latent_dim"] == 8 and r["beta"] == beta)
         except StopIteration:
             continue
+        floor_kl = 0.01 * record["latent_dim"] * 1.5
         if record["kl"] > 10:
             regime = "high-rate"
         elif record["kl"] > 3:
             regime = "semantic bottleneck"
         elif record["kl"] > 1:
             regime = "transition"
-        elif record["kl"] > 0.7:
+        elif record["kl"] > floor_kl:
             regime = "low-rate"
         else:
             regime = "at KL floor"
@@ -271,13 +273,15 @@ def main() -> None:
     lines.append(
         "- **β-VAE posterior collapse behavior**: With the corrected architecture "
         "(no tanh on mu, BatchNorm encoder, halved decoder capacity, KL annealing over "
-        "50 epochs, free-bits=0.1 nats/dim), the posterior no longer collapses to zero KL. "
-        "At β ≥ 0.5, KL is pinned to the free-bits floor (~0.1 nats/dim) rather than "
-        "collapsing to zero — the encoder retains minimal information capacity. "
-        "The useful operating range (β=0.001–0.1) provides tunable rate-distortion tradeoffs "
-        "consistent with Higgins et al. (2017) and Burgess et al. (2018). "
-        "The effective collapse onset has shifted from β=0.5 (old architecture) to "
-        "β=2.0–4.0 (corrected architecture)."
+        "50 epochs, free-bits=0.01 nats/dim), the posterior never collapses to zero KL. "
+        "The KL shows a smooth 300× decline from β=0.001 (KL≈19.5 nats, 28 bits) to "
+        "β=0.5 (KL≈0.09 nats, 0.1 bits) before reaching the free-bits floor. "
+        "At β ≥ 1.0, KL stabilizes at ~0.06–0.07 nats (~0.1 effective bits) and MSE "
+        "approaches the data variance (~0.545), consistent with theoretical expectations "
+        "for the β→∞ limit. The free-bits floor prevents complete gradient collapse "
+        "while allowing the KL to span a wide dynamic range. "
+        "The useful operating range (β=0.001–0.1) provides tunable rate-distortion "
+        "tradeoffs consistent with Higgins et al. (2017) and Burgess et al. (2018)."
     )
     lines.append(
         "- **VQ-VAE codebook usage**: EMA codebook updates and periodic dead-entry "
