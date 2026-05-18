@@ -14,15 +14,15 @@ ObsCodec asks a simple question: **how much of a robot observation must be
 communicated before task-relevant structure disappears?**
 
 The repository benchmarks five codec families on observations collected from
-PettingZoo/MPE `simple_spread_v3`. The current artifact contains **93 benchmark
-configurations**: 89 neural training runs plus 4 PCA fits.
+PettingZoo/MPE `simple_spread_v3`. The current artifact contains benchmark
+configurations across PCA, Autoencoder, Digital, β-VAE, and VQ-VAE codecs.
 
 | Result | Evidence | Why It Matters | See |
 |--------|----------|----------------|-----|
-| Digital quantization is the strongest reconstruction baseline | MSE=0.0001 at 128 nominal bits | A useful upper reference for pure observation fidelity | Table 1, Fig. rate_distortion |
-| β-VAE exposes a tunable semantic information rate | β=0.01, LD=8: MSE=0.0873, KL rate=6.4 bits | For semantic communication: rate is measured by an information bottleneck | Table 2, Fig. ablation_heatmap |
-| β≥0.5 causes posterior collapse | KL≈0 and MSE≈0.545 across all latent dimensions | Gives a concrete failure boundary to monitor during SemCom-MARL training | Table 2, Fig. kl_collapse |
-| VQ-VAE is compact but codebook-limited | Best: CB=256, LD=2, 8 bits, MSE=0.1756; LD=8 codebook usage ≤14% | A discrete packet alternative when symbolic channel payloads are required | Table 3, Fig. vqvae_usage_heatmap |
+| Digital quantization is the strongest reconstruction baseline | MSE ≤ 0.0001 at 128 nominal bits | Upper reference for pure observation fidelity | Table 1, Fig. rate_distortion |
+| β-VAE exposes a tunable semantic information rate | β=0.01 yields a tight semantic bottleneck; free-bits floor prevents collapse to zero KL | SemCom: rate measured by information bottleneck with proper encoder-decoder balance | Table 2, Fig. ablation_heatmap |
+| Effective collapse boundary at β ≥ 0.5 (KL at free-bits floor) | KL ~0.7 nats (~1 bit), MSE ~0.35 at β≥0.5; never collapses to zero thanks to free-bits=0.1 nats/dim | Practical monitoring threshold for SemCom-MARL: KL at floor = minimal information | Table 2, Fig. kl_collapse |
+| VQ-VAE with EMA achieves best at LD=4 | Best: CB=512, LD=4, 9 bits, MSE=0.1283, 100% codebook usage | Discrete packet alternative with high codebook utilization | Table 3, Fig. vqvae_usage_heatmap |
 
 Full numbers are in [assets/results_summary.md](assets/results_summary.md).
 
@@ -54,7 +54,7 @@ This makes the project a focused demo for:
 | Standard AE | Nonlinear reconstruction baseline | `latent_dim` | 5 runs |
 | Digital quantization | Traditional fixed-bit baseline | `latent_dim x bits_per_dim` | 12 runs |
 | β-VAE | Probabilistic semantic bottleneck | `latent_dim x β` | 40 runs |
-| VQ-VAE | Discrete codebook bottleneck | `codebook_size x latent_dim x commitment_cost` | 32 unique runs |
+| VQ-VAE | Discrete codebook bottleneck | `codebook_size x latent_dim x commitment_cost` | 27 unique runs |
 
 All neural codecs use the shared trainer in
 [obscodec/trainer.py](obscodec/trainer.py), with early stopping and identical
@@ -72,7 +72,9 @@ data splits.
 The digital baseline achieves the best MSE at 128+ nominal bits when reconstruction is the only
 objective. β-VAE is central for semantic communication because it measures an **effective
 information rate** through KL divergence, letting us study where the latent channel becomes
-semantically empty. (Data: Table 1, Table 2.)
+semantically empty. With the corrected encoder-decoder balance, KL reaches the free-bits floor
+(~0.1 nats/dim) at β ≥ 0.5, preventing collapse to zero while limiting the encoder to minimal
+information. (Data: Table 1, Table 2.)
 
 ### Budgeted Frontier
 
@@ -93,11 +95,14 @@ reconstruction accuracy. (Data: Table 1, Table 4.)
   <img src="assets/ablation_heatmap.png" width="70%" alt="β-VAE ablation heatmap">
 </p>
 
-**Posterior collapse sets in sharply at β≥0.5 — a reproducible failure boundary.**
-At this threshold, KL falls below 0.05 nats across the full (LD, β) grid and
-reconstruction MSE saturates near 0.545 — the variance of data itself. The encoder
-stops carrying input-dependent information; the latent channel approaches the prior.
-This boundary is consistent across all tested latent dimensions (LD=2 through 32).
+**KL reaches the free-bits floor at β ≥ 0.5 — preventing zero-KL collapse.**
+With the corrected architecture (balanced encoder-decoder capacity, BatchNorm encoder, KL
+annealing over 50 warmup epochs, free-bits=0.1 nats/dim), the posterior never collapses to
+zero KL. At β ≥ 0.5, KL converges to ~0.7 nats (~1 effective bit) — the free-bits floor
+for LD=8 — and reconstruction MSE saturates around 0.34–0.36. The encoder retains minimal
+but nonzero information capacity. This is a dramatic improvement over the old architecture
+(without free bits or annealing) where KL collapsed to <10⁻⁴ at β≥0.5. The corrected
+behavior is consistent with Higgins et al. (2017) and Burgess et al. (2018).
 (Data: Table 2.)
 
 ### Latent and Reconstruction Diagnostics
@@ -122,11 +127,13 @@ the recommended visualization is to compare β=0.01 and β≥0.5 side by side.
 </p>
 
 **VQ-VAE codebooks are severely over-provisioned at higher latent dimensions.**
-For CB=256 and LD=8, codebook usage stays below 15% regardless of commitment cost —
+For CB=256 and LD=8, codebook usage stays below 12% regardless of commitment cost —
 the discrete latent space is over-provisioned for this 18-dim MPE observation
-distribution. In LD=2 settings, codebook usage reaches 100% and yields the best
-VQ-VAE point (MSE=0.1756 at 8 bits). Low-dimensional discretization is both more
-efficient and more stable on this data. (Data: Table 3.)
+distribution. The best overall VQ-VAE point (CB=512, LD=4, cc=0.25) achieves
+MSE=0.1283 at 9 bits with 100% codebook usage. At LD=2, codebook usage reaches
+100% across all codebook sizes, with CB=256 achieving MSE=0.1762 at 8 bits.
+Low-dimensional discretization is both more efficient and more stable on this data.
+(Data: Table 3.)
 
 ## Scientific Interpretation
 
@@ -143,30 +150,39 @@ are:
 
 | β Range | Regime | KL / Rate Behavior | Use |
 |---------|--------|--------------------|-----|
-| β=0.001 | High-rate near-AE | high KL, low MSE | Reconstruction reference |
-| β=0.01 | Semantic bottleneck | 6.4-bit effective rate, moderate MSE | Recommended probe for SemCom-MARL |
-| β=0.1 | Transition | low rate, high distortion | Boundary stress test |
-| β≥0.5 | Collapse | KL≈0, MSE≈0.545 | Failure mode to avoid or detect |
+| β=0.001 | High-rate near-AE | KL≈19.5 nats, rate≈28 bits, MSE≈0.036 | Reconstruction reference |
+| β=0.01 | Semantic bottleneck | KL≈9.2 nats, rate≈13 bits, MSE≈0.048 | Recommended probe for SemCom-MARL |
+| β=0.1 | Transition | KL≈1.7 nats, rate≈2.5 bits, MSE≈0.183 | Boundary stress test |
+| β=0.2–0.3 | Low-rate | KL≈0.8–1.1 nats, rate≈1.1–1.6 bits | Minimal information |
+| β≥0.5 | At KL floor | KL≈0.7 nats, rate≈1 bit, MSE≈0.34–0.36 | Effectively collapsed; free bits prevent zero KL |
 
 ## Negative Results & Their Methodological Value
 
 Two negative results from this benchmark carry methodological weight for future
 SemCom-MARL work:
 
-1. **Posterior collapse at β≥0.5 is universal across latent dimensions.**
-   All 20 configurations with β≥0.5 (LD=2 through 32) collapse to KL<10⁻⁴ and
-   MSE≈0.545. This gives a clean, reproducible threshold: **monitor KL during
-   SemCom-MARL training and trigger intervention when KL drops below 0.1 nats.**
-   It also confirms that Alemi et al. (2018)'s rate-distortion framing of β-VAE
-   predicts collapse behavior correctly on non-image (robot observation) data.
+1. **Free bits prevent zero-KL collapse, but effective collapse still occurs at β≥0.5.**
+   With the corrected architecture (free-bits=0.1 nats/dim, KL annealing, balanced
+   encoder-decoder), the posterior never collapses to zero KL — KL converges to the
+   free-bits floor (~0.7 nats for LD=8) rather than <10⁻⁴ as in the old architecture.
+   However, at this floor the encoder carries minimal information: effective rate is
+   ~1 bit and MSE saturates at 0.34–0.36. This gives a practical monitoring threshold:
+   **when KL hits the free-bits floor during SemCom-MARL training, the latent channel
+   carries negligible task-relevant information.** The architecture fix shifts the
+   onset from β=0.5 (old, zero KL) to β≥0.5 (corrected, at floor), but the practical
+   consequence — unusable latents — is the same. This confirms that Alemi et al.
+   (2018)'s rate-distortion framing predicts collapse behavior correctly on non-image
+   (robot observation) data.
 
 2. **VQ-VAE codebook utilization collapses at higher latent dimensions.**
-   For LD=8, codebook usage never exceeds 14% across all commitment costs and
-   codebook sizes tested. This is not a training failure — it indicates that the
-   discrete latent space is structurally over-provisioned for an 18-dim MPE
-   observation with limited modality diversity. The practical takeaway: **use
-   LD=2 for discrete semantic channels on this data distribution; reserve LD≥8
-   for continuous (β-VAE) bottlenecks only.**
+   For LD=8 at CB=256, codebook usage never exceeds 12% across all commitment costs.
+   Even at the smallest codebook (CB=32), LD=8 max usage is only 43.8%. This is not
+   a training failure — it indicates that the discrete latent space is structurally
+   over-provisioned for an 18-dim MPE observation with limited modality diversity.
+   The practical takeaway: **use LD≤4 for discrete semantic channels on this data
+   distribution; reserve LD≥8 for continuous (β-VAE) bottlenecks only.** The best
+   VQ-VAE result (CB=512, LD=4, MSE=0.1283 at 9 bits, 100% usage) confirms that
+   moderate latent dimensions with large codebooks are the sweet spot.
 
 Both results are *actionable constraints* — they prevent future researchers from
 wasting compute on configurations that the benchmark already shows are ineffective.

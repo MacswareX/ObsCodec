@@ -1,4 +1,4 @@
-"""VQ-VAE 完整ablation：codebook_size × latent_dim × commitment_cost"""
+"""VQ-VAE full ablation with EMA codebook + dead-entry reset."""
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -15,17 +15,17 @@ from obscodec.trainer import train_model
 
 
 def model_done(name):
-    """已有checkpoint则跳过"""
+    """Skip if checkpoint already exists."""
     path = f"checkpoints/vqvae_{name}.pt"
     if os.path.exists(path):
-        print(f"  SKIP (已有): {name}")
+        print(f"  SKIP (exists): {name}")
         return True
     return False
 
 
 def eval_and_record(vqvae, test_data, name, device, extra_info=None):
-    """评估并返回结果字典"""
-    vqvae = vqvae.to(device) 
+    """Evaluate and return result dictionary."""
+    vqvae = vqvae.to(device)
     vqvae.eval()
     test_t = torch.FloatTensor(test_data).to(device)
     with torch.no_grad():
@@ -67,23 +67,20 @@ def main():
     train, val = train_test_split(train, test_size=0.125, random_state=42)
     obs_dim = data.shape[1]
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"设备: {device}, obs_dim={obs_dim}")
+    print(f"Device: {device}, obs_dim={obs_dim}")
 
     os.makedirs("checkpoints", exist_ok=True)
     os.makedirs("assets", exist_ok=True)
 
     results = []
 
-    # ═══════════════════════════════════════════════════
-    # Phase 1: 原15组（已有checkpoint自动跳过）
-    # ═══════════════════════════════════════════════════
+    # Phase 1: Codebook Size × Latent Dim grid
     print("\n" + "=" * 60)
-    print("Phase 1: Codebook Size × Latent Dim (commitment_cost=0.25)")
+    print("Phase 1: Codebook Size x Latent Dim (cc=0.25, EMA)")
     for cs in [32, 64, 128, 256, 512]:
-        for ld in [4, 8, 16]:
+        for ld in [2, 4, 8, 16]:
             name = f"cb{cs}_ld{ld}_cc0.25"
             if model_done(name):
-                # 从checkpoint加载评估
                 vqvae = VQVAE(obs_dim=obs_dim, latent_dim=ld,
                               codebook_size=cs, commitment_cost=0.25)
                 state = torch.load(f"checkpoints/vqvae_{name}.pt",
@@ -91,7 +88,7 @@ def main():
                 vqvae.load_state_dict(state)
                 r = eval_and_record(vqvae, test, name, device)
                 upsert_result(results, r)
-                print(f"  已评估: MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b "
+                print(f"  Evaluated: MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b "
                       f"usage={r['codebook_usage']:.2%}")
                 continue
 
@@ -99,77 +96,39 @@ def main():
             vqvae = VQVAE(obs_dim=obs_dim, latent_dim=ld,
                           codebook_size=cs, commitment_cost=0.25)
             out = train_model(vqvae, train, val, epochs=200, batch_size=256,
-                              device=device, model_name=name)
+                              device=device, model_name=name, vq_reset_interval=30)
             vqvae = out["model"].to(device)
             r = eval_and_record(vqvae, test, name, device)
             upsert_result(results, r)
-            print(f"  完成: MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b "
+            print(f"  Done: MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b "
                   f"usage={r['codebook_usage']:.2%}")
 
-    # ═══════════════════════════════════════════════════
-    # Phase 2: Commitment Cost 扫描（VQ-VAE的"β"维度）
-    # ═══════════════════════════════════════════════════
+    # Phase 2: Commitment Cost sweep
     print("\n" + "=" * 60)
-    print("Phase 2: Commitment Cost Sweep (LD=8, CB=256)")
+    print("Phase 2: Commitment Cost Sweep (LD=4, CB=128)")
     for cc in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0]:
-        name = f"cb256_ld8_cc{cc}"
+        name = f"cb128_ld4_cc{cc}"
         if model_done(name):
-            vqvae = VQVAE(obs_dim=obs_dim, latent_dim=8,
-                          codebook_size=256, commitment_cost=cc)
+            vqvae = VQVAE(obs_dim=obs_dim, latent_dim=4,
+                          codebook_size=128, commitment_cost=cc)
             state = torch.load(f"checkpoints/vqvae_{name}.pt",
                                map_location='cpu', weights_only=True)
             vqvae.load_state_dict(state)
             r = eval_and_record(vqvae, test, name, device)
             upsert_result(results, r)
-            print(f"  已评估: cc={cc} MSE={r['mse']:.4f} usage={r['codebook_usage']:.2%}")
+            print(f"  Evaluated: cc={cc} MSE={r['mse']:.4f} usage={r['codebook_usage']:.2%}")
             continue
 
         print(f"\n  TRAIN: {name}")
-        vqvae = VQVAE(obs_dim=obs_dim, latent_dim=8,
-                      codebook_size=256, commitment_cost=cc)
+        vqvae = VQVAE(obs_dim=obs_dim, latent_dim=4,
+                      codebook_size=128, commitment_cost=cc)
         out = train_model(vqvae, train, val, epochs=200, batch_size=256,
-                          device=device, model_name=name)
+                          device=device, model_name=name, vq_reset_interval=30)
         vqvae = out["model"].to(device)
         r = eval_and_record(vqvae, test, name, device)
         upsert_result(results, r)
-        print(f"  完成: cc={cc} MSE={r['mse']:.4f} usage={r['codebook_usage']:.2%}")
+        print(f"  Done: cc={cc} MSE={r['mse']:.4f} usage={r['codebook_usage']:.2%}")
 
-    # ═══════════════════════════════════════════════════
-    # Phase 3: 扩展 grid（LD=2, CB=16/1024 等空白点）
-    # ═══════════════════════════════════════════════════
-    print("\n" + "=" * 60)
-    print("Phase 3: Extended Grid")
-    extras = [
-        (2, 32), (2, 64), (2, 128), (2, 256),
-        (4, 16), (8, 16), (16, 16),
-        (4, 1024), (8, 1024), (16, 1024),
-    ]
-    for ld, cs in extras:
-        name = f"cb{cs}_ld{ld}_cc0.25"
-        if model_done(name):
-            vqvae = VQVAE(obs_dim=obs_dim, latent_dim=ld,
-                          codebook_size=cs, commitment_cost=0.25)
-            state = torch.load(f"checkpoints/vqvae_{name}.pt",
-                               map_location='cpu', weights_only=True)
-            vqvae.load_state_dict(state)
-            r = eval_and_record(vqvae, test, name, device)
-            upsert_result(results, r)
-            print(f"  已评估: {name} MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b")
-            continue
-
-        print(f"\n  TRAIN: {name}")
-        vqvae = VQVAE(obs_dim=obs_dim, latent_dim=ld,
-                      codebook_size=cs, commitment_cost=0.25)
-        out = train_model(vqvae, train, val, epochs=200, batch_size=256,
-                          device=device, model_name=name)
-        vqvae = out["model"].to(device)
-        r = eval_and_record(vqvae, test, name, device)
-        upsert_result(results, r)
-        print(f"  完成: MSE={r['mse']:.4f} BW={r['bandwidth']:.0f}b")
-
-    # ═══════════════════════════════════════════════════
-    # 保存全部结果
-    # ═══════════════════════════════════════════════════
     with open("assets/vqvae_results.json", "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nFinished {len(results)} unique VQ-VAE runs -> assets/vqvae_results.json")

@@ -1,4 +1,4 @@
-"""β-VAE训练 + β × latent_dim ablation"""
+"""β-VAE training + β × latent_dim ablation with KL annealing."""
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -28,13 +28,13 @@ def main():
 
     obs_dim = data.shape[1]
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"设备: {device}, obs_dim={obs_dim}")
+    print(f"Device: {device}, obs_dim={obs_dim}")
 
     os.makedirs("checkpoints", exist_ok=True)
     os.makedirs("assets", exist_ok=True)
 
     latent_dims = [2, 4, 8, 16, 32]
-    betas = [0.001, 0.01, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+    betas = [0.001, 0.01, 0.1, 0.2, 0.3, 0.5, 1.0, 2.0, 4.0, 5.0, 8.0, 10.0]
     results = []
 
     for ld in latent_dims:
@@ -42,7 +42,8 @@ def main():
             name = f"VAE-LD{ld}-B{beta}"
             print(f"\n{'='*50}\n{name}")
 
-            vae = BetaVAE(obs_dim=obs_dim, latent_dim=ld, beta=beta)
+            vae = BetaVAE(obs_dim=obs_dim, latent_dim=ld, beta=beta,
+                          kl_warmup_epochs=50)
             out = train_model(vae, train, val, epochs=200, batch_size=256,
                               device=device, model_name=name)
 
@@ -65,9 +66,9 @@ def main():
             }
             results.append(r)
             print(f"  MSE={mse:.4f} BW={vae.equivalent_bandwidth:.0f}b "
-                  f"Rate={rate_bits:.2f}b KL={vae.last_kl:.2f}")
+                  f"Rate={rate_bits:.2f}b KL={kl_val:.4f}")
 
-            if beta in [0.01, 1.0, 10.0]:
+            if beta in [0.01, 1.0, 4.0]:
                 torch.save(vae.state_dict(), f"checkpoints/vae_ld{ld}_b{beta}.pt")
 
     with open("assets/vae_results.json", "w") as f:

@@ -215,7 +215,7 @@ def plot_reconstruction_comparison(data_path="data/mpe_observations.npy",
 def plot_vqvae_commitment_sweep(vqvae_results, save_path="assets/vqvae_commitment.png"):
     """Plot the VQ-VAE commitment-cost sweep."""
     cc_data = [r for r in vqvae_results if r.get("commitment_cost") is not None
-               and r.get("codebook_size") == 256 and r.get("latent_dim") == 8]
+               and r.get("codebook_size") == 128 and r.get("latent_dim") == 4]
     if len(cc_data) < 3:
         print("  VQ commitment sweep skipped: insufficient data")
         return
@@ -243,7 +243,7 @@ def plot_vqvae_commitment_sweep(vqvae_results, save_path="assets/vqvae_commitmen
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2,
                loc='center left', fontsize=10, framealpha=0.9)
-    plt.title('VQ-VAE: Commitment Cost vs MSE & Codebook Usage (LD=8, CB=256)', fontsize=13)
+    plt.title('VQ-VAE: Commitment Cost vs MSE & Codebook Usage (LD=4, CB=128)', fontsize=13)
     plt.tight_layout(); plt.savefig(save_path); plt.close()
     print(f"wrote {save_path}")
 

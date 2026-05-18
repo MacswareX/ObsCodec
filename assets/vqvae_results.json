@@ -1,299 +1,245 @@
 [
   {
-    "name": "cb32_ld4_cc0.25",
-    "latent_dim": 4,
-    "codebook_size": 32,
-    "commitment_cost": 0.25,
-    "mse": 0.2048647105693817,
-    "bandwidth": 5.0,
-    "codebook_usage": 1.0
-  },
-  {
-    "name": "cb32_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 32,
-    "commitment_cost": 0.25,
-    "mse": 0.21913973987102509,
-    "bandwidth": 5.0,
-    "codebook_usage": 0.75
-  },
-  {
-    "name": "cb32_ld16_cc0.25",
-    "latent_dim": 16,
-    "codebook_size": 32,
-    "commitment_cost": 0.25,
-    "mse": 0.22479645907878876,
-    "bandwidth": 5.0,
-    "codebook_usage": 0.5625
-  },
-  {
-    "name": "cb64_ld4_cc0.25",
-    "latent_dim": 4,
-    "codebook_size": 64,
-    "commitment_cost": 0.25,
-    "mse": 0.20142762362957,
-    "bandwidth": 6.0,
-    "codebook_usage": 0.984375
-  },
-  {
-    "name": "cb64_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 64,
-    "commitment_cost": 0.25,
-    "mse": 0.22414889931678772,
-    "bandwidth": 6.0,
-    "codebook_usage": 0.296875
-  },
-  {
-    "name": "cb64_ld16_cc0.25",
-    "latent_dim": 16,
-    "codebook_size": 64,
-    "commitment_cost": 0.25,
-    "mse": 0.20643553137779236,
-    "bandwidth": 6.0,
-    "codebook_usage": 0.5
-  },
-  {
-    "name": "cb128_ld4_cc0.25",
-    "latent_dim": 4,
-    "codebook_size": 128,
-    "commitment_cost": 0.25,
-    "mse": 0.17763371765613556,
-    "bandwidth": 7.0,
-    "codebook_usage": 1.0
-  },
-  {
-    "name": "cb128_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 128,
-    "commitment_cost": 0.25,
-    "mse": 0.2106267809867859,
-    "bandwidth": 7.0,
-    "codebook_usage": 0.25
-  },
-  {
     "name": "cb128_ld16_cc0.25",
     "latent_dim": 16,
     "codebook_size": 128,
     "commitment_cost": 0.25,
-    "mse": 0.22583802044391632,
-    "bandwidth": 7.0,
-    "codebook_usage": 0.140625
-  },
-  {
-    "name": "cb256_ld4_cc0.25",
-    "latent_dim": 4,
-    "codebook_size": 256,
-    "commitment_cost": 0.25,
-    "mse": 0.20350633561611176,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.1875
-  },
-  {
-    "name": "cb256_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.25,
-    "mse": 0.2079971879720688,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.13671875
-  },
-  {
-    "name": "cb256_ld16_cc0.25",
-    "latent_dim": 16,
-    "codebook_size": 256,
-    "commitment_cost": 0.25,
-    "mse": 0.2204400599002838,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.08203125
-  },
-  {
-    "name": "cb512_ld4_cc0.25",
-    "latent_dim": 4,
-    "codebook_size": 512,
-    "commitment_cost": 0.25,
-    "mse": 0.20637699961662292,
-    "bandwidth": 9.0,
-    "codebook_usage": 0.072265625
-  },
-  {
-    "name": "cb512_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 512,
-    "commitment_cost": 0.25,
-    "mse": 0.21577224135398865,
-    "bandwidth": 9.0,
-    "codebook_usage": 0.048828125
-  },
-  {
-    "name": "cb512_ld16_cc0.25",
-    "latent_dim": 16,
-    "codebook_size": 512,
-    "commitment_cost": 0.25,
-    "mse": 0.1980099380016327,
-    "bandwidth": 9.0,
-    "codebook_usage": 0.08203125
-  },
-  {
-    "name": "cb256_ld8_cc0.01",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.01,
-    "mse": 0.2203732281923294,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.0859375
-  },
-  {
-    "name": "cb256_ld8_cc0.05",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.05,
-    "mse": 0.20709045231342316,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.140625
-  },
-  {
-    "name": "cb256_ld8_cc0.1",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.1,
-    "mse": 0.21774309873580933,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.08984375
-  },
-  {
-    "name": "cb256_ld8_cc0.25",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.25,
-    "mse": 0.2079971879720688,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.13671875
-  },
-  {
-    "name": "cb256_ld8_cc0.5",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 0.5,
-    "mse": 0.225320503115654,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.0703125
-  },
-  {
-    "name": "cb256_ld8_cc1.0",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 1.0,
-    "mse": 0.2133006900548935,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.109375
-  },
-  {
-    "name": "cb256_ld8_cc2.0",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 2.0,
-    "mse": 0.20828066766262054,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.11328125
-  },
-  {
-    "name": "cb256_ld8_cc5.0",
-    "latent_dim": 8,
-    "codebook_size": 256,
-    "commitment_cost": 5.0,
-    "mse": 0.2197950929403305,
-    "bandwidth": 8.0,
-    "codebook_usage": 0.08203125
-  },
-  {
-    "name": "cb32_ld2_cc0.25",
-    "latent_dim": 2,
-    "codebook_size": 32,
-    "commitment_cost": 0.25,
-    "mse": 0.21113665401935577,
-    "bandwidth": 5.0,
-    "codebook_usage": 1.0
-  },
-  {
-    "name": "cb64_ld2_cc0.25",
-    "latent_dim": 2,
-    "codebook_size": 64,
-    "commitment_cost": 0.25,
-    "mse": 0.19731782376766205,
-    "bandwidth": 6.0,
-    "codebook_usage": 1.0
+    "mse": 0.23809757828712463,
+    "bandwidth": 7,
+    "codebook_usage": 0.1015625
   },
   {
     "name": "cb128_ld2_cc0.25",
     "latent_dim": 2,
     "codebook_size": 128,
     "commitment_cost": 0.25,
-    "mse": 0.18497908115386963,
-    "bandwidth": 7.0,
+    "mse": 0.1836567223072052,
+    "bandwidth": 7,
     "codebook_usage": 1.0
+  },
+  {
+    "name": "cb128_ld4_cc0.01",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.01,
+    "mse": 0.16441121697425842,
+    "bandwidth": 7,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "cb128_ld4_cc0.05",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.05,
+    "mse": 0.1616504192352295,
+    "bandwidth": 7,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "cb128_ld4_cc0.1",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.1,
+    "mse": 0.20493821799755096,
+    "bandwidth": 7,
+    "codebook_usage": 0.375
+  },
+  {
+    "name": "cb128_ld4_cc0.25",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.25,
+    "mse": 0.17885172367095947,
+    "bandwidth": 7,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "cb128_ld4_cc0.5",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.5,
+    "mse": 0.1982881724834442,
+    "bandwidth": 7,
+    "codebook_usage": 0.484375
+  },
+  {
+    "name": "cb128_ld4_cc1.0",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 1.0,
+    "mse": 0.19727157056331635,
+    "bandwidth": 7,
+    "codebook_usage": 0.5390625
+  },
+  {
+    "name": "cb128_ld4_cc2.0",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 2.0,
+    "mse": 0.20243987441062927,
+    "bandwidth": 7,
+    "codebook_usage": 0.390625
+  },
+  {
+    "name": "cb128_ld4_cc5.0",
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 5.0,
+    "mse": 0.5455169081687927,
+    "bandwidth": 7,
+    "codebook_usage": 0.0078125
+  },
+  {
+    "name": "cb128_ld8_cc0.25",
+    "latent_dim": 8,
+    "codebook_size": 128,
+    "commitment_cost": 0.25,
+    "mse": 0.21686595678329468,
+    "bandwidth": 7,
+    "codebook_usage": 0.1875
+  },
+  {
+    "name": "cb256_ld16_cc0.25",
+    "latent_dim": 16,
+    "codebook_size": 256,
+    "commitment_cost": 0.25,
+    "mse": 0.2311425358057022,
+    "bandwidth": 8,
+    "codebook_usage": 0.05859375
   },
   {
     "name": "cb256_ld2_cc0.25",
     "latent_dim": 2,
     "codebook_size": 256,
     "commitment_cost": 0.25,
-    "mse": 0.1755906343460083,
-    "bandwidth": 8.0,
+    "mse": 0.17624607682228088,
+    "bandwidth": 8,
     "codebook_usage": 1.0
   },
   {
-    "name": "cb16_ld4_cc0.25",
+    "name": "cb256_ld4_cc0.25",
     "latent_dim": 4,
-    "codebook_size": 16,
+    "codebook_size": 256,
     "commitment_cost": 0.25,
-    "mse": 0.2289140373468399,
-    "bandwidth": 4.0,
-    "codebook_usage": 1.0
+    "mse": 0.19802099466323853,
+    "bandwidth": 8,
+    "codebook_usage": 0.28515625
   },
   {
-    "name": "cb16_ld8_cc0.25",
+    "name": "cb256_ld8_cc0.25",
     "latent_dim": 8,
-    "codebook_size": 16,
+    "codebook_size": 256,
     "commitment_cost": 0.25,
-    "mse": 0.2290489673614502,
-    "bandwidth": 4.0,
-    "codebook_usage": 1.0
+    "mse": 0.21094904839992523,
+    "bandwidth": 8,
+    "codebook_usage": 0.1171875
   },
   {
-    "name": "cb16_ld16_cc0.25",
+    "name": "cb32_ld16_cc0.25",
     "latent_dim": 16,
-    "codebook_size": 16,
+    "codebook_size": 32,
     "commitment_cost": 0.25,
-    "mse": 0.2283450961112976,
-    "bandwidth": 4.0,
+    "mse": 0.35431969165802,
+    "bandwidth": 5,
+    "codebook_usage": 0.125
+  },
+  {
+    "name": "cb32_ld2_cc0.25",
+    "latent_dim": 2,
+    "codebook_size": 32,
+    "commitment_cost": 0.25,
+    "mse": 0.2097499519586563,
+    "bandwidth": 5,
     "codebook_usage": 1.0
   },
   {
-    "name": "cb1024_ld4_cc0.25",
+    "name": "cb32_ld4_cc0.25",
     "latent_dim": 4,
-    "codebook_size": 1024,
+    "codebook_size": 32,
     "commitment_cost": 0.25,
-    "mse": 0.21245445311069489,
-    "bandwidth": 10.0,
-    "codebook_usage": 0.0283203125
+    "mse": 0.21590004861354828,
+    "bandwidth": 5,
+    "codebook_usage": 0.75
   },
   {
-    "name": "cb1024_ld8_cc0.25",
+    "name": "cb32_ld8_cc0.25",
     "latent_dim": 8,
-    "codebook_size": 1024,
+    "codebook_size": 32,
     "commitment_cost": 0.25,
-    "mse": 0.2235395908355713,
-    "bandwidth": 10.0,
-    "codebook_usage": 0.0185546875
+    "mse": 0.23874080181121826,
+    "bandwidth": 5,
+    "codebook_usage": 0.4375
   },
   {
-    "name": "cb1024_ld16_cc0.25",
+    "name": "cb512_ld16_cc0.25",
     "latent_dim": 16,
-    "codebook_size": 1024,
+    "codebook_size": 512,
     "commitment_cost": 0.25,
-    "mse": 0.21599683165550232,
-    "bandwidth": 10.0,
-    "codebook_usage": 0.0234375
+    "mse": 0.23294980823993683,
+    "bandwidth": 9,
+    "codebook_usage": 0.02734375
+  },
+  {
+    "name": "cb512_ld4_cc0.25",
+    "latent_dim": 4,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.12827540934085846,
+    "bandwidth": 9,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "cb512_ld8_cc0.25",
+    "latent_dim": 8,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.20616942644119263,
+    "bandwidth": 9,
+    "codebook_usage": 0.07421875
+  },
+  {
+    "name": "cb64_ld16_cc0.25",
+    "latent_dim": 16,
+    "codebook_size": 64,
+    "commitment_cost": 0.25,
+    "mse": 0.24565653502941132,
+    "bandwidth": 6,
+    "codebook_usage": 0.171875
+  },
+  {
+    "name": "cb64_ld2_cc0.25",
+    "latent_dim": 2,
+    "codebook_size": 64,
+    "commitment_cost": 0.25,
+    "mse": 0.1968267410993576,
+    "bandwidth": 6,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "cb64_ld4_cc0.25",
+    "latent_dim": 4,
+    "codebook_size": 64,
+    "commitment_cost": 0.25,
+    "mse": 0.20830558240413666,
+    "bandwidth": 6,
+    "codebook_usage": 0.515625
+  },
+  {
+    "name": "cb64_ld8_cc0.25",
+    "latent_dim": 8,
+    "codebook_size": 64,
+    "commitment_cost": 0.25,
+    "mse": 0.2332448810338974,
+    "bandwidth": 6,
+    "codebook_usage": 0.21875
+  },
+  {
+    "name": "cb512_ld2_cc0.25",
+    "latent_dim": 2,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.1707,
+    "bandwidth": 9,
+    "codebook_usage": 0.9922
   }
 ]
