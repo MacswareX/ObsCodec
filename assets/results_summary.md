@@ -44,7 +44,7 @@
 > **Regime classification criteria:**
 > - **✓ effective (β≤0.01):** KL > 1 nat — the encoder carries significant input-dependent information, producing a structured latent representation. β=0.001 yields the best reconstruction (MSE=0.0284, 15.8 bits effective rate); β=0.01 is the recommended SemCom-MARL operating point (MSE=0.0873, 6.4 bits effective rate).
 > - **⚠ transition (β=0.1):** KL ≈ 1.1 nats (0.8 bits) and MSE ≈ 0.32 — the encoder is discarding most input information. This regime is a boundary stress-test; small changes in β produce large changes in behavior.
-> - **✗ collapsed (β≥0.5):** KL < 1e-4 nats, MSE saturated at ~0.545 (the variance of N(0,I)). The encoder has degenerated to the prior — the latent channel carries zero input-dependent information. This boundary is sharp and reproducible across all tested latent dimensions (LD=2 through 32).
+> - **✗ collapsed (β≥0.5):** KL < 1e-4 nats, MSE saturated at ~0.545 (the variance of data itself). The encoder has degenerated to the prior — the latent channel carries zero input-dependent information. This boundary is sharp and reproducible across all tested latent dimensions (LD=2 through 32).
 >
 > See Fig. kl_collapse, Fig. ablation_heatmap, Fig. latent_space.
 
