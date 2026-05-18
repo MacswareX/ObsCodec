@@ -95,7 +95,7 @@ reconstruction accuracy. (Data: Table 1, Table 4.)
 
 **Posterior collapse sets in sharply at β≥0.5 — a reproducible failure boundary.**
 At this threshold, KL falls below 0.05 nats across the full (LD, β) grid and
-reconstruction MSE saturates near 0.545 — the prior variance of N(0,I). The encoder
+reconstruction MSE saturates near 0.545 — the variance of data itself. The encoder
 stops carrying input-dependent information; the latent channel approaches the prior.
 This boundary is consistent across all tested latent dimensions (LD=2 through 32).
 (Data: Table 2.)
