@@ -21,7 +21,7 @@
 >
 > - **Digital Quantization dominates the RD Efficiency ranking** (78.12) by combining near-lossless reconstruction (MSE=0.0001) with moderate nominal bandwidth (128 bits). It is the recommended baseline when pure observation fidelity is the sole objective.
 > - **β-VAE β=0.01 (✦) is the recommended SemCom-MARL probe.** Its nominal BW is 256 bits (8 latent dims × 32-bit float), but the KL-measured effective information rate is only 6.4 bits. The ~90× gap between raw storage (576 bits) and information-theoretic content (6.4 bits) quantifies the compressibility achievable through a probabilistic bottleneck. Actual deployed compression requires entropy coding (e.g., bits-back) or learned channel adaptation on top of this estimate.
-> - **β≥0.5 triggers posterior collapse:** KL → 0 nats, MSE saturates at ~0.545 (the variance of the prior N(0,I)), and effective rate → 0. The encoder outputs the prior regardless of input.
+> - **β≥0.5 triggers posterior collapse:** KL → 0 nats, MSE saturates at ~0.545 (the variance of data itself), and effective rate → 0. The encoder outputs the prior regardless of input.
 > - **VQ-VAE achieves the highest compression ratio** (72×) by operating at only 8 bits, but its MSE (0.1756) is 8× higher than β-VAE β=0.01. The choice between them depends on whether a discrete, ultra-low-bitrate channel interface is more important than reconstruction fidelity.
 >
 > See Fig. rate_distortion, Fig. pareto_frontier.
