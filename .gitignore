@@ -1,5 +1,50 @@
-obscodec.egg-info/
+# Python
 __pycache__/
-*.pyc
-checkpoints/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual env
+venv/
+env/
+.venv/
+.conda/
+
+# Data & models (build artefacts)
+data/*.npy
+checkpoints/*.pt
+checkpoints/*.pth
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
+Thumbs.db
+
+# Claude Code
 .claude/
+
+# Logs & experiment tracking
+*.log
+wandb/
+lightning_logs/
+
+# Sensitive
+.env
+*.key
+
+# Keep directory structure
+!data/.gitkeep
+!checkpoints/.gitkeep
+
+# Exceptions — files needed for reproducibility
+!data/mpe_observations.npy
+!checkpoints/ae_ld8.pt
+!checkpoints/vae_ld8_b0.01.pt
+!checkpoints/vae_ld8_b1.0.pt
