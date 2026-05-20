@@ -83,6 +83,8 @@ class BetaVAE(nn.Module):
         kl_warmup_epochs: int = 150,
         free_bits: float = 0.0,
         decoder_hidden_dim: int | None = None,
+        task_weight: float = 0.0,
+        task_loss_type: str = "self_only",
     ):
         super().__init__()
         self.obs_dim = obs_dim
@@ -91,6 +93,8 @@ class BetaVAE(nn.Module):
         self.hidden_dim = hidden_dim
         self.kl_warmup_epochs = kl_warmup_epochs
         self.free_bits = free_bits
+        self.task_weight = task_weight
+        self.task_loss_type = task_loss_type
 
         dec_hidden = decoder_hidden_dim if decoder_hidden_dim is not None else hidden_dim
         self.encoder = VAEEncoder(obs_dim, latent_dim, hidden_dim)
@@ -146,6 +150,19 @@ class BetaVAE(nn.Module):
             loss = recon + self.beta_current * kl_active
         else:
             loss = recon + self.beta_current * kl
+
+        # Task-aware loss injection (Phase 3)
+        task_loss = torch.tensor(0.0, device=x.device)
+        if self.task_weight > 0:
+            if self.task_loss_type == "self_only":
+                task_loss = F.mse_loss(x_hat[:, :2], x[:, :2])
+            elif self.task_loss_type == "weighted":
+                # Weight self-position error higher than other-agent features
+                self_mse = F.mse_loss(x_hat[:, :2], x[:, :2])
+                others_mse = F.mse_loss(x_hat[:, 2:], x[:, 2:])
+                task_loss = 0.7 * self_mse + 0.3 * others_mse
+            loss = loss + self.task_weight * task_loss
+
         return loss, recon, kl
 
     def validation_step(self, x):

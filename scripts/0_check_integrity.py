@@ -54,6 +54,9 @@ def check_results():
         "fb_cross_scenario_validation.json", "pilot_channel_results.json",
         "fb_finesweep_results.json", "agent_scaling_results.json",
         "vqvae_multiscenario_results.json", "unified_codec_results.json",
+        # Phase 3: Semantic Communication
+        "diff_channel_results.json", "jscc_results.json",
+        "task_aware_results.json", "e2e_results.json",
     ]
     all_ok = True
     for fname in expected:
@@ -101,15 +104,61 @@ def check_figures():
         print(f"  {fname:<45} {status}")
 
 
+def check_phase3():
+    """Verify Phase 3 library and script files exist."""
+    print("\n=== Phase 3: Semantic Communication ===")
+    root = Path(__file__).resolve().parents[1]
+    files = [
+        "obscodec/channel/diff_channel.py",
+        "obscodec/models/jscc.py",
+        "obscodec/task_metrics.py",
+        "scripts/7_diff_channel.py",
+        "scripts/8_jscc_training.py",
+        "scripts/9_task_aware.py",
+        "scripts/10_end_to_end.py",
+    ]
+    all_ok = True
+    for rel_path in files:
+        path = root / rel_path
+        status = "OK" if path.exists() else "MISSING"
+        if not path.exists():
+            all_ok = False
+        print(f"  {rel_path:<45} {status}")
+
+    # Check Phase 3 config entries
+    try:
+        from obscodec.config import (JSCC_SCENARIOS, JSCC_BETAS, JSCC_LATENT_DIM,
+                                      DIFF_AWGN_SNR_TRAIN, DIFF_ERASURE_RATES,
+                                      TASK_LOSS_TYPES, TASK_WEIGHTS, E2E_ROLLOUT_STEPS)
+        print(f"  Phase 3 config entries: OK")
+    except ImportError as e:
+        print(f"  Phase 3 config entries: MISSING ({e})")
+        all_ok = False
+
+    # Check Phase 3 imports
+    try:
+        from obscodec.channel.diff_channel import DiffAWGN, DiffErasure, DiffBlockErasure, DiffRayleighProxy
+        from obscodec.models.jscc import JSCCWrapper
+        from obscodec.task_metrics import evaluate_task_metrics, coordination_error, self_position_mse
+        from obscodec.data.synthetic import generate_spread_with_metrics
+        print(f"  Phase 3 imports: OK")
+    except ImportError as e:
+        print(f"  Phase 3 imports: FAILED ({e})")
+        all_ok = False
+
+    return all_ok
+
+
 if __name__ == "__main__":
     print("ObsCodec Integrity Check\n")
     d = check_data()
     r = check_results()
     c = check_checkpoints()
     check_figures()
+    p3 = check_phase3()
 
     print(f"\n{'='*50}")
-    if d and r and c:
+    if d and r and c and p3:
         print("OVERALL: PASS")
     else:
         print("OVERALL: ISSUES FOUND")
@@ -119,3 +168,5 @@ if __name__ == "__main__":
             print("  - Results JSONs missing")
         if not c:
             print("  - Checkpoints directory missing")
+        if not p3:
+            print("  - Phase 3 files missing")

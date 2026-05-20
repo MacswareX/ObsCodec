@@ -7,3 +7,6 @@ from .adaptive import (
     RateAllocator, AdaptiveDigitalCodec, AgentChannelState,
     compute_coordination_score,
 )
+from .diff_channel import (
+    DiffAWGN, DiffErasure, DiffBlockErasure, DiffRayleighProxy,
+)

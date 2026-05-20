@@ -79,6 +79,22 @@ ADAPTIVE_STRATEGIES = ["water_filling", "proportional", "uniform"]
 # ── Coordination test ─────────────────────────────────────────────
 COORDINATION_LOSS_RATES = [0.0, 0.1, 0.2, 0.3, 0.5]
 
+# ── Phase 3: Semantic Communication ─────────────────────────────────
+# Differentiable channel training
+DIFF_AWGN_SNR_TRAIN = [-5, 0, 5, 10, 15, 20]
+DIFF_ERASURE_RATES = [0.0, 0.05, 0.1, 0.2, 0.3]
+JSCC_SCENARIOS = ["simple_spread", "spread_hd", "spread_xhd"]
+JSCC_BETAS = [0.1, 2.0]
+JSCC_LATENT_DIM = 16
+
+# Task-aware loss
+TASK_LOSS_TYPES = ["none", "self_only", "weighted"]
+TASK_WEIGHTS = [0.0, 0.01, 0.1, 0.5, 1.0]
+
+# End-to-end prototype
+E2E_ROLLOUT_STEPS = 200
+E2E_SNR_RANGE = [-5, 0, 5, 10, 20, None]  # None = clean channel
+
 # ── Constants ──────────────────────────────────────────────────────
 NATS_TO_BITS = 1.442695
 COLLAPSE_KL_THRESHOLD = 0.05

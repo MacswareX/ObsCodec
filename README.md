@@ -281,20 +281,23 @@ ObsCodec/
 │   ├── config.py
 │   ├── metrics.py
 │   ├── trainer.py
+│   ├── task_metrics.py            # Task-aware evaluation (Phase 3)
 │   ├── utils.py
 │   ├── visualize.py
 │   ├── channel/
-│   │   ├── impairments.py        # 6 channel models
-│   │   └── adaptive.py           # Rate allocation strategies
+│   │   ├── impairments.py         # 6 channel models
+│   │   ├── adaptive.py            # Rate allocation strategies
+│   │   └── diff_channel.py        # Differentiable channels for JSCC (Phase 3)
 │   ├── data/
-│   │   ├── synthetic.py          # 7 scenario generators
+│   │   ├── synthetic.py           # 7 scenario generators + task-aware variants
 │   │   └── __init__.py
 │   └── models/
 │       ├── pca_baseline.py
 │       ├── ae_baseline.py
 │       ├── digital_baseline.py
-│       ├── vae.py                 # β-VAE + free_bits + decoder expansion
-│       └── vqvae.py               # VQ-VAE + codebook utilization
+│       ├── vae.py                 # β-VAE + free_bits + task-aware loss
+│       ├── vqvae.py               # VQ-VAE + codebook utilization
+│       └── jscc.py                # JSCC wrapper (Phase 3)
 ├── scripts/
 │   ├── 0_check_integrity.py
 │   ├── 1_collect_data.py
@@ -306,7 +309,11 @@ ObsCodec/
 │   ├── 4_train_vqvae.py
 │   ├── 4b_vqvae_multiscenario.py  # VQ-VAE multi-scenario + channel
 │   ├── 5_generate_figures.py
-│   └── 6_summary_table.py
+│   ├── 6_summary_table.py
+│   ├── 7_diff_channel.py          # Phase 3.1: Differentiable channel benchmark
+│   ├── 8_jscc_training.py         # Phase 3.2: JSCC training experiment
+│   ├── 9_task_aware.py            # Phase 3.3: Task-aware loss experiment
+│   └── 10_end_to_end.py           # Phase 3.4: End-to-end prototype
 ├── data/
 ├── assets/                         # All figures + results JSONs
 └── checkpoints/                    # Sample model weights
@@ -338,21 +345,49 @@ python scripts/3b_fb_finesweep.py            # FB fine-sweep 0.02-0.25
 python scripts/3c_agent_scaling.py           # Agent-count scaling N=3-15
 python scripts/3d_unified_codec.py           # Cross-scenario unified codec
 python scripts/4b_vqvae_multiscenario.py     # VQ-VAE multi-scenario + channel
+
+# Phase 3: Semantic Communication
+python scripts/7_diff_channel.py             # Differentiable channel benchmark
+python scripts/8_jscc_training.py            # JSCC training experiment
+python scripts/9_task_aware.py               # Task-aware loss experiment
+python scripts/10_end_to_end.py              # End-to-end prototype
 ```
 
 Hardware used for the current artifact: RTX 3050 8 GB, PyTorch 2.6.0+cu124.
 Seeds are fixed at 42 in the data split and experiment scripts.
 
-## Next Research Steps (Phase 3: Semantic Communication)
+## Phase 3: Semantic Communication
 
-1. Insert the β-VAE codec into a MARL policy loop and evaluate return under
-   bandwidth limits with task-aware distortion.
-2. Add differentiable channel layers (AWGN, Rayleigh, packet loss) into the
-   training loop for joint source-channel coding (JSCC).
-3. Evaluate task performance metrics: coordination success, collision rate,
-   path efficiency, communication load under channel noise.
-4. Test extreme channel regimes: SNR ≤ -5dB, packet loss ≥ 30%.
-5. Build end-to-end prototype: `obs → encode → channel → decode → policy → task`.
+Phase 3 bridges the gap from pure compression benchmarking to semantic communication
+research by making the channel part of the training loop and the loss task-aware.
+
+This phase is structured as 4 sub-phases:
+
+| Sub-phase | Script | Description |
+|-----------|--------|-------------|
+| 3.1 | [7_diff_channel.py](scripts/7_diff_channel.py) | Differentiable channel layers (AWGN via reparameterization, erasure via straight-through) — train codec with channel in the loop |
+| 3.2 | [8_jscc_training.py](scripts/8_jscc_training.py) | Joint source-channel coding grid: β-VAE (β=0.1,2.0) + VQ-VAE across scenarios, AWGN SNR [0,10,20]dB + erasure [10%,30%], FB=0.0 vs 0.1 |
+| 3.3 | [9_task_aware.py](scripts/9_task_aware.py) | Task-aware loss: self-position MSE, weighted self+others, contrastive — tests whether task gradient prevents posterior collapse |
+| 3.4 | [10_end_to_end.py](scripts/10_end_to_end.py) | Closed-loop prototype: obs → encode → channel → decode → heuristic policy → task — measures final distance to targets |
+
+### Architecture
+
+```
+obs → [Encoder] → z → [Differentiable Channel] → z_noisy → [Decoder] → obs_hat
+                ↑                                          ↓
+          KL(q(z|x)||N(0,I))                     MSE(x, x_hat)
+                └────────────── + task-aware loss ─────────────┘
+```
+
+Key library additions:
+- [obscodec/channel/diff_channel.py](obscodec/channel/diff_channel.py): 4 differentiable channel `nn.Module` classes
+- [obscodec/models/jscc.py](obscodec/models/jscc.py): JSCCWrapper composing any codec + differentiable channel
+- [obscodec/task_metrics.py](obscodec/task_metrics.py): Task-aware evaluation (self-position MSE, per-agent MSE, coordination gap)
+- [obscodec/data/synthetic.py](obscodec/data/synthetic.py): `*_with_metrics` generators returning task ground-truth
+- [obscodec/models/vae.py](obscodec/models/vae.py): `task_weight` + `task_loss_type` parameters in BetaVAE
+
+Results are saved to `assets/jscc_results.json`, `assets/task_aware_results.json`,
+and `assets/e2e_results.json`.
 
 ## Route B Completion: 11/11 (100%)
 

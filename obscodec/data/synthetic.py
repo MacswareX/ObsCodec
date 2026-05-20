@@ -264,6 +264,228 @@ SYNTHETIC_GENERATORS_HD = {
 }
 
 
+# ═══════════════════════════════════════════════════════════════════
+# Task-aware generators (Phase 3) — return observations + ground-truth
+# ═══════════════════════════════════════════════════════════════════
+
+def generate_spread_with_metrics(n_agents=5, n_landmarks=5, n_samples=SAMPLES_PER_SCENARIO,
+                                 seed=RANDOM_SEED, dt=0.1, steps_per_ep=100):
+    """Like generate_spread but also returns task ground-truth dict.
+
+    Returns
+    -------
+    obs: np.ndarray (n_samples, obs_dim)
+    metrics: dict with keys:
+        positions    — (n_samples, n_agents, 2)  absolute positions
+        velocities   — (n_samples, n_agents, 2)  velocities
+        landmarks    — (n_samples, n_landmarks, 2)  landmark positions
+        targets      — (n_samples, n_agents, 2)  assigned target positions
+        d_to_target  — (n_samples, n_agents)       distance to assigned target
+    """
+    rng = np.random.default_rng(seed)
+    obs_list, pos_list, vel_list, lm_list, target_list, d_list = [], [], [], [], [], []
+    collected = 0
+
+    while collected < n_samples:
+        pos = rng.uniform(-1.5, 1.5, (n_agents, 2))
+        vel = rng.normal(0, 0.1, (n_agents, 2))
+        landmarks = rng.uniform(-2.0, 2.0, (n_landmarks, 2))
+        targets = landmarks[rng.permutation(n_landmarks)[:n_agents] % n_landmarks]
+
+        for step in range(steps_per_ep):
+            for i in range(n_agents):
+                to_target = targets[i] - pos[i]
+                dist_target = np.linalg.norm(to_target) + 1e-4
+                f_target = 0.5 * to_target / dist_target
+                f_repel = np.zeros(2)
+                for j in range(n_agents):
+                    if j != i:
+                        diff = pos[i] - pos[j]
+                        dist = np.linalg.norm(diff) + 1e-3
+                        f_repel += 0.2 * diff / (dist ** 2 + 0.1)
+                acc = f_target + f_repel + rng.normal(0, 0.05, 2)
+                vel[i] += acc * dt
+                vel[i] *= 0.95
+
+            pos += vel * dt
+            pos, vel = _reflect_agents(pos, vel)
+
+            if step % 5 == 0:
+                for i in range(n_agents):
+                    obs = _agent_obs(i, pos, vel, landmarks)
+                    obs_list.append(obs)
+                    pos_list.append(pos.copy())
+                    vel_list.append(vel.copy())
+                    lm_list.append(landmarks.copy())
+                    target_list.append(targets.copy())
+                    d_list.append(np.linalg.norm(pos - targets, axis=1))
+                    collected += 1
+                    if collected >= n_samples:
+                        break
+            if collected >= n_samples:
+                break
+
+    n = min(len(obs_list), n_samples)
+    metrics = {
+        "positions": np.stack(pos_list[:n]),
+        "velocities": np.stack(vel_list[:n]),
+        "landmarks": np.stack(lm_list[:n]),
+        "targets": np.stack(target_list[:n]),
+        "d_to_target": np.stack(d_list[:n]),
+    }
+    return np.stack(obs_list[:n]), metrics
+
+
+def generate_tag_with_metrics(n_predators=3, n_prey=3, n_samples=SAMPLES_PER_SCENARIO,
+                              seed=RANDOM_SEED + 100, dt=0.1, steps_per_ep=100):
+    """Like generate_tag but returns task ground-truth dict.
+
+    Returns
+    -------
+    obs: np.ndarray (n_samples, obs_dim)
+    metrics: dict with keys:
+        positions   — (n_samples, n_total, 2)
+        velocities  — (n_samples, n_total, 2)
+        is_predator — (n_total,) bool mask
+    """
+    rng = np.random.default_rng(seed)
+    n_total = n_predators + n_prey
+    obs_list, pos_list, vel_list = [], [], []
+    collected = 0
+
+    while collected < n_samples:
+        pos = rng.uniform(-2.0, 2.0, (n_total, 2))
+        vel = rng.normal(0, 0.15, (n_total, 2))
+        is_predator = np.array([i < n_predators for i in range(n_total)])
+
+        for step in range(steps_per_ep):
+            for i in range(n_total):
+                if is_predator[i]:
+                    prey_positions = pos[~is_predator]
+                    prey_idx = np.argmin(np.linalg.norm(prey_positions - pos[i], axis=1))
+                    to_target = prey_positions[prey_idx] - pos[i]
+                    dist = np.linalg.norm(to_target) + 1e-4
+                    f_goal = 0.8 * to_target / dist
+                else:
+                    predator_positions = pos[is_predator]
+                    pred_idx = np.argmin(np.linalg.norm(predator_positions - pos[i], axis=1))
+                    away = pos[i] - predator_positions[pred_idx]
+                    dist = np.linalg.norm(away) + 1e-4
+                    f_goal = 0.6 * away / (dist ** 2 + 0.05)
+                acc = f_goal + rng.normal(0, 0.08, 2)
+                vel[i] += acc * dt
+                vel[i] *= 0.97
+
+            pos += vel * dt
+            pos, vel = _reflect_agents(pos, vel)
+
+            if step % 5 == 0:
+                for i in range(n_total):
+                    obs = _agent_obs(i, pos, vel, None)
+                    obs_list.append(obs)
+                    pos_list.append(pos.copy())
+                    vel_list.append(vel.copy())
+                    collected += 1
+                    if collected >= n_samples:
+                        break
+            if collected >= n_samples:
+                break
+
+    n = min(len(obs_list), n_samples)
+    metrics = {
+        "positions": np.stack(pos_list[:n]),
+        "velocities": np.stack(vel_list[:n]),
+        "is_predator": is_predator,
+    }
+    return np.stack(obs_list[:n]), metrics
+
+
+def generate_comm_with_metrics(n_agents=6, n_food=4, n_forests=2,
+                                n_samples=SAMPLES_PER_SCENARIO, seed=RANDOM_SEED + 200,
+                                dt=0.1, steps_per_ep=100):
+    """Like generate_comm but returns task ground-truth dict.
+
+    Returns
+    -------
+    obs: np.ndarray (n_samples, obs_dim)
+    metrics: dict with keys:
+        positions   — (n_samples, n_agents, 2)
+        velocities  — (n_samples, n_agents, 2)
+        landmarks   — (n_samples, n_landmarks, 2)
+        is_food     — (n_landmarks,) bool mask (True=food, False=forest)
+    """
+    rng = np.random.default_rng(seed)
+    n_landmarks = n_food + n_forests
+    obs_list, pos_list, vel_list, lm_list = [], [], [], []
+    collected = 0
+
+    while collected < n_samples:
+        pos = rng.uniform(-2.0, 2.0, (n_agents, 2))
+        vel = rng.normal(0, 0.1, (n_agents, 2))
+        food_pos = rng.uniform(-2.0, 2.0, (n_food, 2))
+        forest_pos = rng.uniform(-2.0, 2.0, (n_forests, 2))
+        landmarks = np.vstack([food_pos, forest_pos])
+
+        for step in range(steps_per_ep):
+            for i in range(n_agents):
+                d_food = np.linalg.norm(food_pos - pos[i], axis=1)
+                nearest_food = food_pos[np.argmin(d_food)]
+                to_food = nearest_food - pos[i]
+                dist_food = np.linalg.norm(to_food) + 1e-4
+                f_food = 0.4 * to_food / dist_food
+
+                d_forest = np.linalg.norm(forest_pos - pos[i], axis=1)
+                nearest_forest = forest_pos[np.argmin(d_forest)]
+                away_forest = pos[i] - nearest_forest
+                dist_forest = np.linalg.norm(away_forest) + 1e-4
+                f_forest = 0.3 * away_forest / (dist_forest ** 2 + 0.1)
+
+                f_cohere = np.zeros(2)
+                for j in range(n_agents):
+                    if j != i:
+                        diff = pos[j] - pos[i]
+                        dist = np.linalg.norm(diff) + 1e-3
+                        f_cohere += 0.1 * diff * np.clip(dist - 0.5, 0, 1)
+
+                acc = f_food + f_forest + f_cohere + rng.normal(0, 0.05, 2)
+                vel[i] += acc * dt
+                vel[i] *= 0.96
+
+            pos += vel * dt
+            pos, vel = _reflect_agents(pos, vel)
+
+            if step % 5 == 0:
+                for i in range(n_agents):
+                    obs = _agent_obs(i, pos, vel, landmarks)
+                    obs_list.append(obs)
+                    pos_list.append(pos.copy())
+                    vel_list.append(vel.copy())
+                    lm_list.append(landmarks.copy())
+                    collected += 1
+                    if collected >= n_samples:
+                        break
+            if collected >= n_samples:
+                break
+
+    n = min(len(obs_list), n_samples)
+    is_food = np.array([True] * n_food + [False] * n_forests)
+    metrics = {
+        "positions": np.stack(pos_list[:n]),
+        "velocities": np.stack(vel_list[:n]),
+        "landmarks": np.stack(lm_list[:n]),
+        "is_food": is_food,
+    }
+    return np.stack(obs_list[:n]), metrics
+
+
+# Registry for task-aware generators
+SYNTHETIC_GENERATORS_METRICS = {
+    "simple_spread": generate_spread_with_metrics,
+    "simple_tag": generate_tag_with_metrics,
+    "simple_world_comm": generate_comm_with_metrics,
+}
+
+
 def collect_synthetic_dataset_hd(scenarios: list[str] | None = None,
                                  save: bool = True) -> dict[str, np.ndarray]:
     """Generate high-dimensional datasets for Step B."""
