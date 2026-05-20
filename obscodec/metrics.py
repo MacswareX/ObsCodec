@@ -52,6 +52,20 @@ def evaluate_codec(model, test_data, device, test_loader=None):
     else:
         result["regime"] = "OK"
 
+    # Cost metrics (params + inference latency)
+    try:
+        from .cost_metrics import count_parameters, measure_inference_latency
+        cost = count_parameters(model)
+        result["num_params"] = cost.get("total_params", 0)
+        result["trainable_params"] = cost.get("trainable_params", 0)
+
+        # Single-sample inference latency
+        single_input = test_t[:1]
+        lat = measure_inference_latency(model, single_input, n_warmup=10, n_measure=50)
+        result["inference_ms"] = lat.get("latency_ms_mean", float("nan"))
+    except Exception:
+        pass
+
     return result
 
 

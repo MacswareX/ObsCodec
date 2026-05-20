@@ -1,6 +1,6 @@
 # ObsCodec Results Summary
 
-> **Phase 1 & Route B** — 263 trained models across 7 MPE scenarios (18–90 dim, 3–15 agents)
+> **Phase 1 & Extended Benchmark** — 263+ trained models across 7 MPE scenarios (18–90 dim, 3–15 agents)
 
 ---
 
@@ -51,7 +51,7 @@ KL spans 300× range (19.6→0.06 nats) before reaching the free-bits floor at �
 
 ---
 
-## Route B: High-Dimensional Scaling & Collapse Prevention
+## Extended Benchmark: High-Dimensional Scaling & Collapse Prevention
 
 ### Table 4: FB=0.1 Universal Anti-Collapse
 
@@ -132,4 +132,78 @@ A single BetaVAE trained on all 3 scenarios jointly matches or beats per-scenari
 - **VQ-VAE channel effects**: AWGN at moderate SNR serves as implicit denoising regularization for VQ-VAE. Rayleigh fading is more destructive, especially at low SNR.
 - **Cross-scenario transfer**: The unified codec's superior performance on the hardest scenario (spread_xhd) suggests shared representations benefit high-dimensional tasks via regularization from simpler scenarios.
 - All β-VAE results use the corrected free-bits logic: `max(0, KL_per_dim.mean(dim=0) - free_bits).sum()` — per-dimension batch-averaged clamping, not per-sample.
-- Reconstruction MSE is a proxy metric. Full SemCom-MARL evaluation (Phase 3) should validate with task-aware metrics.
+- Reconstruction MSE is a proxy metric. Phase 3 scripts (7-10) instrument task-aware, JSCC, and end-to-end closed-loop evaluation — results below document the experimental designs pending execution at scale.
+- All β-VAE results use the corrected free-bits logic: `max(0, KL_per_dim.mean(dim=0) - free_bits).sum()` — per-dimension batch-averaged clamping, not per-sample.
+
+---
+
+## Phase 3: Semantic Communication — Experimental Designs
+
+Scripts 7-10 implement four semantic communication experiments. Results below describe the
+experimental design, measured quantities, and expected outcomes. (Full execution requires GPU
+time; scripts are ready to run.)
+
+### Table 9: Differentiable Channel Benchmark (`7_diff_channel.py`)
+
+| Train Channel | Test Condition | Codec | β | FB | Measured Metric |
+|---------------|---------------|-------|---|---|-----------------|
+| none (baseline) | clean | BetaVAE | 2.0 | 0.1 | MSE, KL |
+| DiffAWGN 20dB | clean, matched 20dB, mismatched 10/5/0dB | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test SNR |
+| DiffAWGN 10dB | clean, matched 10dB, mismatched 20/5/0dB | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test SNR |
+| DiffAWGN 5dB | clean, matched 5dB, mismatched 20/10/0dB | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test SNR |
+| DiffAWGN 0dB | clean, matched 0dB, mismatched 20/10/5dB | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test SNR |
+| DiffErasure 10% | clean, matched 10%, mismatched 30% | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test loss rate |
+| DiffErasure 30% | clean, matched 30%, mismatched 10% | JSCC-BetaVAE | 2.0 | 0.1 | MSE per test loss rate |
+
+Tests whether training with differentiable channels improves robustness to matched AND
+mismatched channel conditions (a core JSCC hypothesis). The reparameterization trick enables
+gradient flow through AWGN; straight-through estimator handles erasure.
+
+### Table 10: JSCC Training Grid (`8_jscc_training.py`)
+
+| Dimension | Values |
+|-----------|--------|
+| Scenarios | simple_spread (30d), spread_hd (48d), spread_xhd (90d) |
+| Codecs | BetaVAE β=0.1, BetaVAE β=2.0, VQ-VAE (cb=512) |
+| Free Bits | 0.0, 0.1 |
+| Train Channels | clean, AWGN (20/10/0 dB), Erasure (10%, 30%) |
+| Test Channels | clean, AWGN (20/10/0/-5 dB), Erasure (0/10/30%) |
+| Metrics per config | MSE, KL, NMSE (normalized by data variance) |
+
+Full factorial: 3 scenarios × 3 codecs × 2 FB × 6 train channels × 8 test channels = up to
+864 data points. This is the central JSCC experiment testing whether channel-in-the-loop
+training generalizes across codec families and channel types.
+
+### Table 11: Task-Aware Loss (`9_task_aware.py`)
+
+| Parameter | Values |
+|-----------|--------|
+| β | 0.01, 0.1, 1.0 |
+| Task Loss Types | none (baseline), self_only (MSE on first 2 dims), weighted (0.7×self + 0.3×others) |
+| Task Weights | 0.01, 0.1, 0.5, 1.0 |
+| Scenarios | simple_spread, simple_tag, simple_world_comm |
+
+**Key question**: Can task-aware loss substitute for or complement free-bits in maintaining
+latent activity? Measured metrics: total MSE, self-position MSE, other-agent MSE,
+coordination gap (ratio of self to others error), KL divergence, per-agent MSE breakdown.
+
+### Table 12: End-to-End Closed-Loop (`10_end_to_end.py`)
+
+| Condition | Compression | Channel | Description |
+|-----------|-------------|---------|-------------|
+| no_compression | None | Clean | Raw observations → heuristic policy (upper bound) |
+| jscc_clean | JSCC-BetaVAE (β=2.0, FB=0.1) | Clean | Encode→decode→policy (compression cost only) |
+| jscc_noisy | JSCC-BetaVAE (β=2.0, FB=0.1) | AWGN (configurable SNR) | Full pipeline including channel noise |
+
+10 episodes per condition, 200-step rollouts. Metrics: final distance to targets (avg last
+10 steps), early/late mean distance, path efficiency, collision count. A SpreadSimulator
+with 5 agents and 5 landmarks closes the observation→encode→channel→decode→policy→action
+loop.
+
+### Phase 3 Library Additions
+
+| Module | Purpose |
+|--------|---------|
+| `obscodec/channel/diff_channel.py` | Differentiable AWGN (reparameterization) and Erasure (straight-through) layers |
+| `obscodec/models/jscc.py` | JSCCWrapper — composes a base codec with a differentiable channel |
+| `obscodec/task_metrics.py` | Task-aware evaluation: self-position MSE, coordination error, per-agent metrics |

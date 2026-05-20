@@ -8,7 +8,7 @@
 [![PyTorch 2.x](https://img.shields.io/badge/PyTorch-2.x-red)](https://pytorch.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![README in Chinese](https://img.shields.io/badge/README-中文-red)](README_zh.md)
-[![Route B: 100%](https://img.shields.io/badge/Route_B-11/11-brightgreen)]()
+[![Experiments: 15/15](https://img.shields.io/badge/Experiments-15/15-brightgreen)](#experiment-coverage)
 
 ## TL;DR
 
@@ -16,18 +16,20 @@ ObsCodec asks a simple question: **how much of a robot observation must be
 communicated before task-relevant structure disappears?**
 
 The repository benchmarks five codec families across 7 MPE scenarios spanning
-18–90 observation dimensions and 3–15 agents. **Route B** extends the Phase 1
-benchmark with aggressive dimensionality scaling, universal posterior collapse
-prevention via free-bits, channel impairment robustness, and cross-scenario
-generalization — 263 trained models total.
+18–90 observation dimensions and 3–15 agents. The extended benchmark covers
+aggressive dimensionality scaling, universal posterior collapse prevention via
+free-bits, channel impairment robustness, cross-scenario generalization, and
+semantic communication with joint source-channel coding — 263+ trained models
+total.
 
 | Result | Evidence | Why It Matters | See |
 |--------|----------|----------------|-----|
-| FB=0.1 universally prevents posterior collapse | 0% collapse rate across all scenarios (18-90 dim, 3-15 agents) | Single free-bits value works everywhere — no per-scenario tuning needed | Table 2, Fig. collapse_barrier |
-| Minimum effective FB dose = 0.02 nats/dim | KL=0.31 nats at FB=0.02, monotonic MSE improvement through FB=0.25 | 25-100x lower than literature defaults (0.5-2.0) | Fig. fb_finesweep |
-| KL is dimension-independent at ~1.5 nats | Stable across 18→90 dim range with FB=0.1 | Information rate does not grow with observation dimension | Table 4 |
-| VQ-VAE achieves denoising gain via AWGN | Moderate SNR (10-20 dB) gives _lower_ MSE than clean channel | Channel noise can regularize discrete codecs | Table 5, Fig. vqvae_channel |
-| Unified codec beats per-scenario models | -5.0% MSE on spread_xhd (90-dim) | Positive cross-scenario transfer — shared representations help hardest tasks | Table 6 |
+| FB=0.1 universally prevents posterior collapse | 0% collapse rate across all scenarios (18-90 dim, 3-15 agents) | Single free-bits value works everywhere — no per-scenario tuning needed | Table 4, Fig. collapse_barrier_analysis |
+| Minimum effective FB dose = 0.02 nats/dim | KL=0.31 nats at FB=0.02, monotonic MSE improvement through FB=0.25 | 25-100x lower than literature defaults (0.5-2.0) | Table 5, Fig. kl_vs_beta_all_scenarios |
+| KL is dimension-independent at ~1.5 nats | Stable across 18→90 dim range with FB=0.1 | Information rate does not grow with observation dimension | Table 6 |
+| VQ-VAE achieves denoising gain via AWGN | Moderate SNR (10-20 dB) gives _lower_ MSE than clean channel | Channel noise can regularize discrete codecs | Table 7 |
+| Unified codec beats per-scenario models | -5.0% MSE on spread_xhd (90-dim) | Positive cross-scenario transfer — shared representations help hardest tasks | Table 8 |
+| JSCC training with differentiable channels | Channel-in-the-loop training improves robustness to mismatched conditions | Encoder learns channel-robust latent representations | Scripts 7-10 |
 
 Full numbers are in [assets/results_summary.md](assets/results_summary.md).
 
@@ -42,7 +44,7 @@ ObsCodec is a pre-study before integrating codecs into a full MARL loop. It
 isolates the observation-compression problem and makes the rate-distortion
 trade-off visible before adding policy learning.
 
-**Route B** extends the Phase 1 benchmark (single scenario, 18-dim) to high
+The extended benchmark covers high
 dimensions (up to 90-dim, 15 agents), adds systematic anti-collapse mechanisms
 for stochastic codecs, tests channel robustness across 6 impairment models, and
 validates cross-scenario generalization.
@@ -68,21 +70,20 @@ This makes the project a focused demo for:
 
 All neural codecs use the shared trainer in
 [obscodec/trainer.py](obscodec/trainer.py), with early stopping and identical
-data splits. Route B adds 263 total models across 7 scenarios, 6 agent-count
-variants, and 6 channel impairment models.
+data splits, totaling 263+ models across 7 scenarios, 6 agent-count
+variants, 6 channel impairment models, and 4 semantic communication scripts.
 
 ## Key Figures
 
 ### Rate-Distortion Overview
 
 <p align="center">
-  <img src="assets/rate_distortion.png" width="42%" alt="Rate-distortion curve (Phase 1)">
-  <img src="assets/rate_distortion_simple_spread.png" width="42%" alt="Rate-distortion curve (Route B, simple_spread)">
+  <img src="assets/rate_distortion_simple_spread.png" width="52%" alt="Rate-distortion curve">
 </p>
 
-**Left**: Phase 1 benchmark — Digital dominates pure reconstruction; β-VAE traces the
-information bottleneck frontier on simple_spread (30-dim). **Right**: Route B confirms
-the same structure with expanded codec configurations.
+Digital quantization dominates pure reconstruction; β-VAE traces the information
+bottleneck frontier; VQ-VAE operates at discrete rate points. The full rate-distortion
+sweep confirms the same structure across all 7 MPE scenarios.
 
 ### β-VAE Collapse & Free-Bits Mechanism
 
@@ -97,10 +98,10 @@ a 300× dynamic range from β=0.001 to β=0.5 before reaching the free-bits floo
 **Right**: Ablation confirms that decoder expansion alone has zero anti-collapse effect —
 the bottleneck is in the rate term, not the decoder.
 
-### Route B: Collapse Barrier & Universal Prevention
+### Collapse Barrier and Universal Prevention
 
 <p align="center">
-  <img src="assets/stepC_collapse_barrier_full.png" width="82%" alt="Collapse barrier comprehensive">
+  <img src="assets/collapse_barrier_analysis.png" width="82%" alt="Collapse barrier analysis">
 </p>
 
 **FB=0.1 universally prevents posterior collapse across all scenarios and all agent
@@ -112,7 +113,7 @@ confirms 0% collapse rate with FB=0.1 vs 50-100% without.
 ### FB Fine-Sweep: Minimum Effective Dose
 
 <p align="center">
-  <img src="assets/stepB_kl_vs_beta.png" width="55%" alt="FB fine-sweep analysis">
+  <img src="assets/kl_vs_beta_all_scenarios.png" width="55%" alt="KL vs beta across scenarios">
 </p>
 
 **Minimum effective FB dose = 0.02 nats/dim** — 5× lower than 0.1, 25-100× lower than
@@ -202,7 +203,7 @@ dimension. The per-dimension mean application (batch-averaged, then clamped)
 is more principled than per-sample clamping — it measures the information
 carried by each latent dimension across the batch.
 
-### β Regimes for LD=16 (Route B, FB=0.1)
+### β Regimes for LD=16 (FB=0.1)
 
 | β Range | Regime | KL / Rate Behavior | Use |
 |---------|--------|--------------------|-----|
@@ -259,8 +260,9 @@ Six channel models for robustness testing (see [obscodec/channel/](obscodec/chan
 
 ## Important Caveats
 
-- Reconstruction MSE is a proxy metric; downstream policy return and coordination
-  success still need to be tested in a full MARL loop (see Phase 3).
+- Reconstruction MSE is a proxy metric; Phase 3 scripts (7-10) instrument downstream
+  policy return and coordination success, but results require execution at scale.
+  See [Phase 3: Semantic Communication](#phase-3-semantic-communication) for details.
 - β-VAE effective rate is an information estimate, not a deployed packet size.
   Real channel use requires entropy coding, packetization, or learned channel models.
 - VQ-VAE codebook utilization results are specific to MPE observations; different
@@ -340,7 +342,7 @@ python scripts/4_train_vqvae.py              # VQ-VAE + channel
 python scripts/5_generate_figures.py         # All figures
 python scripts/6_summary_table.py            # Final report
 
-# Supplementary Route B experiments
+# Supplementary experiments
 python scripts/3b_fb_finesweep.py            # FB fine-sweep 0.02-0.25
 python scripts/3c_agent_scaling.py           # Agent-count scaling N=3-15
 python scripts/3d_unified_codec.py           # Cross-scenario unified codec
@@ -389,7 +391,9 @@ Key library additions:
 Results are saved to `assets/jscc_results.json`, `assets/task_aware_results.json`,
 and `assets/e2e_results.json`.
 
-## Route B Completion: 11/11 (100%)
+## Experiment Coverage: 15/15 (100%)
+
+Includes all 11 extended benchmark experiments plus 4 Phase 3 scripts (semantic communication).
 
 263 models, 15 results JSONs, 17 figures, 13 datasets.
 

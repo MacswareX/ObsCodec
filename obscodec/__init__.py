@@ -1,9 +1,9 @@
 """ObsCodec — learned observation compression for multi-agent systems.
 
 Pre-study for SemCom-MARL.
-5 codec paradigms, 263 benchmark configurations across Route B.
+5 codec paradigms, 263 benchmark configurations across 7 MPE scenarios.
 """
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __author__ = "MacswareX"
 __license__ = "MIT"
 

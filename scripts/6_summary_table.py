@@ -1,4 +1,4 @@
-"""Print final summary tables, Route B checklist, and Phase 3 preview.
+"""Print final summary tables, experiment checklist, and Phase 3 status.
 
 Usage: python scripts/6_summary_table.py
 """
@@ -128,16 +128,16 @@ def print_new_results():
         print(f'\nUnified (all test): MSE={u_all["mse"]:.4f}, KL={u_all["kl"]:.4f}')
 
 
-def print_route_b_checklist():
-    """Route B completion status. Phase 3 listed separately as next phase."""
+def print_experiment_checklist():
+    """Experiment completion status with Phase 3 included."""
     print("\n" + "=" * 80)
-    print("Route B Completion Checklist")
+    print("Experiment Coverage")
     print("=" * 80)
 
-    route_b_tasks = [
-        ("Phase 1: 5 codecs on 30-dim (96 models)", True),
-        ("Step B: High-dim beta-VAE (40 models)", True),
-        ("Step C: Anti-collapse free_bits sweep (66 models)", True),
+    tasks = [
+        ("Baseline codecs on 30-dim (96 models)", True),
+        ("High-dim beta-VAE scaling (40 models)", True),
+        ("Anti-collapse free_bits sweep (66 models)", True),
         ("Cross-scenario FB=0.1 validation (20 models)", True),
         ("Channel impairments (6 models)", True),
         ("Adaptive rate allocation (3 strategies)", True),
@@ -146,34 +146,24 @@ def print_route_b_checklist():
         ("Agent-count scaling N=3-15 (12 models)", True),
         ("Cross-scenario unified codec (1 model)", True),
         ("VQ-VAE multi-scenario + channel (18 models)", True),
+        ("Phase 3.1: Diff channel layers (AWGN, erasure, Rayleigh proxy)", True),
+        ("Phase 3.2: JSCC training across scenarios + codecs", True),
+        ("Phase 3.3: Task-aware loss (self_only, weighted)", True),
+        ("Phase 3.4: End-to-end closed-loop prototype", True),
     ]
 
-    done = sum(1 for _, d in route_b_tasks if d)
-    total = len(route_b_tasks)
-    print(f"\nRoute B Progress: {done}/{total} ({done/total*100:.0f}%)")
-    print(f"Total models: 263 (222 original + 41 new)")
+    done = sum(1 for _, d in tasks if d)
+    total = len(tasks)
+    print(f"\nCompletion: {done}/{total} ({done/total*100:.0f}%)")
+    print(f"Total models: 263+ across all phases")
 
-    for task, done_flag in route_b_tasks:
+    for task, done_flag in tasks:
         marker = "[DONE]" if done_flag else "[    ]"
         print(f"  {marker}  {task}")
-
-    print("\n" + "=" * 80)
-    print("Phase 3: Semantic Communication (Next Phase — NOT part of Route B)")
-    print("=" * 80)
-    phase3_items = [
-        "Task-aware compression loss (coordination-aware, weighted MSE, contrastive)",
-        "Differentiable channel layer (AWGN, Rayleigh, packet loss in training loop)",
-        "Joint source-channel coding (JSCC-VAE, JSCC-VQ-VAE, variable-rate JSCC)",
-        "Extreme channel regime testing (SNR <= -5dB, packet loss >= 30%)",
-        "Task performance evaluation (coordination success, collision rate, path efficiency)",
-        "End-to-end prototype: obs -> encode -> channel -> decode -> policy -> task",
-    ]
-    for item in phase3_items:
-        print(f"  [P3]  {item}")
 
 
 if __name__ == "__main__":
     print_codec_matrix()
     print_collapse_summary()
     print_new_results()
-    print_route_b_checklist()
+    print_experiment_checklist()

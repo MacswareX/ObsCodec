@@ -1,9 +1,9 @@
-"""Step 5: Generate all figures and run cross-codec evaluation.
+"""Generate all figures and run cross-codec evaluation.
 
 Figures produced:
   1. Rate-distortion curves (per scenario)
-  2. KL vs beta across scenarios (Step B)
-  3. Collapse barrier comprehensive figure (Step C, 6-panel)
+  2. KL vs beta across scenarios
+  3. Collapse barrier comprehensive figure (6-panel)
   4. Cross-scenario FB validation figure (3-panel)
   5. Channel robustness figure
 
@@ -44,7 +44,7 @@ def figure_rate_distortion():
     ae = load_json("ae_results.json") or []
     digital = load_json("digital_results.json") or []
     vae = load_json("vae_results.json") or []
-    vqvae = load_json("vqvae_results.json") or [] if Path(ASSETS_DIR / "vqvae_results.json").exists() else load_json("vqvae_stepA_results.json") or []
+    vqvae = load_json("vqvae_results.json") or []
 
     scenarios = sorted(set(
         r.get("scenario", "") for r in (pca + ae + digital + vae + vqvae)
@@ -105,19 +105,19 @@ def figure_rate_distortion():
 # ═══════════════════════════════════════════════════════════════════
 
 def figure_kl_vs_beta():
-    stepb = load_json("vae_stepB_results.json") or []
+    hd_scaling = load_json("vae_hd_scaling_results.json") or []
     fb_full = load_json("collapse_barrier_full_results.json") or []
     fb_cross = load_json("fb_cross_scenario_validation.json") or []
 
-    if not stepb:
-        print("  SKIP: no Step B results")
+    if not hd_scaling:
+        print("  SKIP: no HD scaling results")
         return
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    # Step B baselines (FB=0)
+    # HD scaling baselines (FB=0)
     by_scenario = {}
-    for r in stepb:
+    for r in hd_scaling:
         by_scenario.setdefault(r["scenario"], []).append(r)
     for name in sorted(by_scenario.keys()):
         items = sorted(by_scenario[name], key=lambda x: x["beta"])
@@ -290,10 +290,10 @@ def figure_collapse_barrier_full():
     ax.grid(True, alpha=0.3)
     ax.set_xscale("log")
 
-    plt.suptitle("Step C: Collapse Barrier — Free Bits + Decoder Expansion on spread_xhd (90-dim)",
+    plt.suptitle("Collapse Barrier — Free Bits + Decoder Expansion on spread_xhd (90-dim)",
                  fontsize=13, fontweight="bold", y=0.99)
     plt.tight_layout(rect=[0, 0.02, 1, 0.96])
-    save_figure(fig, "stepC_collapse_barrier_full.png")
+    save_figure(fig, "collapse_barrier_analysis.png")
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -303,7 +303,7 @@ def figure_collapse_barrier_full():
 def figure_cross_scenario():
     cross = load_json("fb_cross_scenario_validation.json")
     fb_full = load_json("collapse_barrier_full_results.json")
-    stepb = load_json("vae_stepB_results.json")
+    hd_scaling = load_json("vae_hd_scaling_results.json")
     if not cross:
         print("  SKIP: no cross-scenario results")
         return
@@ -314,7 +314,7 @@ def figure_cross_scenario():
     # Panel 1: KL vs beta
     ax = axes[0]
     for scenario in scenarios:
-        bl_items = sorted([r for r in (stepb or []) if r["scenario"] == scenario], key=lambda x: x["beta"])
+        bl_items = sorted([r for r in (hd_scaling or []) if r["scenario"] == scenario], key=lambda x: x["beta"])
         if bl_items:
             ax.loglog([r["beta"] for r in bl_items], [max(r["kl"], 1e-5) for r in bl_items],
                       marker=scenario_marker(scenario), color=scenario_color(scenario),

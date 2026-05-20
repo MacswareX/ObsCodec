@@ -1,12 +1,12 @@
-"""Step 3: beta-VAE training — Phase 1 + Step B (scaling) + Step C (anti-collapse).
+"""beta-VAE training — standard sweep + high-dim scaling + anti-collapse.
 
-Phases:
-  phase1:  Standard beta-VAE sweep on simple_spread (30-dim), LD=8,16
-  stepb:   High-dim sweep on 4 datasets (40-90 dim), LD=16
-  stepc:   Free-bits + decoder expansion anti-collapse sweep on spread_xhd
-  cross:   FB=0.1 cross-scenario validation on tag_hd + comm_hd
+Sub-experiments:
+  standard:          Standard beta-VAE sweep on simple_spread (30-dim), LD=8,16
+  hd_scaling:        High-dim sweep on 4 datasets (40-90 dim), LD=16
+  anti_collapse:     Free-bits + decoder expansion anti-collapse sweep on spread_xhd
+  cross_validation:  FB=0.1 cross-scenario validation on tag_hd + comm_hd
 
-Usage: python scripts/3_train_vae.py [--phase phase1|stepb|stepc|cross] [--all]
+Usage: python scripts/3_train_vae.py [--phase standard|hd_scaling|anti_collapse|cross_validation] [--all]
 """
 import sys, json, numpy as np
 from pathlib import Path
@@ -98,15 +98,15 @@ def run_configs(dataset_name, obs_dim, train, val, test, configs, ld=16):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Phase 1: Standard beta-VAE sweep on simple_spread (30-dim)
+# Standard beta-VAE sweep on simple_spread (30-dim)
 # ═══════════════════════════════════════════════════════════════════
 
-def run_phase1():
+def run_standard_sweep():
     betas = [0.001, 0.01, 0.1, 0.3, 0.5, 0.7, 1.0, 2.0, 4.0, 10.0]
     lds = [8, 16]
 
     train, val, test, obs_dim = load_data("simple_spread")
-    print(f"\nPhase 1: simple_spread (obs_dim={obs_dim}, N={train.shape[0]})")
+    print(f"\nStandard sweep: simple_spread (obs_dim={obs_dim}, N={train.shape[0]})")
 
     configs = []
     for ld in lds:
@@ -118,14 +118,14 @@ def run_phase1():
     out_path = ASSETS_DIR / "vae_results.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\nSaved {len(results)} Phase 1 results to {out_path}")
+    print(f"\nSaved {len(results)} standard sweep results to {out_path}")
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Step B: High-dim beta-VAE sweep (40-90 dim)
+# High-dimensional beta-VAE sweep (40-90 dim)
 # ═══════════════════════════════════════════════════════════════════
 
-def run_stepb():
+def run_hd_scaling():
     betas = [0.001, 0.01, 0.1, 0.3, 0.5, 0.7, 1.0, 2.0, 4.0, 10.0]
     datasets = ["tag_hd", "spread_hd", "comm_hd", "spread_xhd"]
     all_results = []
@@ -133,30 +133,30 @@ def run_stepb():
     for ds in datasets:
         train, val, test, obs_dim = load_data(ds)
         print(f"\n{'#'*60}")
-        print(f"Step B: {ds} (obs_dim={obs_dim}, N={train.shape[0]})")
+        print(f"HD scaling: {ds} (obs_dim={obs_dim}, N={train.shape[0]})")
         print(f"{'#'*60}")
 
         configs = [{"beta": b, "free_bits": 0.0, "decoder_mult": 1} for b in betas]
         results = run_configs(ds, obs_dim, train, val, test, configs)
         all_results.extend(results)
 
-    out_path = ASSETS_DIR / "vae_stepB_results.json"
+    out_path = ASSETS_DIR / "vae_hd_scaling_results.json"
     with open(out_path, "w") as f:
         json.dump(all_results, f, indent=2)
-    print(f"\nSaved {len(all_results)} Step B results to {out_path}")
+    print(f"\nSaved {len(all_results)} HD scaling results to {out_path}")
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Step C: Free-bits + decoder expansion anti-collapse (spread_xhd)
+# Free-bits + decoder expansion anti-collapse sweep on spread_xhd
 # ═══════════════════════════════════════════════════════════════════
 
-def run_stepc():
+def run_anti_collapse_sweep():
     free_bits_list = [0.0, 0.1, 0.25, 0.5, 0.75, 1.0, 2.0]
     dec_mult_list = [1, 2]
     betas = [0.1, 0.5, 1.0, 2.0, 4.0, 10.0]
 
     train, val, test, obs_dim = load_data("spread_xhd")
-    print(f"\nStep C: spread_xhd (obs_dim={obs_dim}, N={train.shape[0]})")
+    print(f"\nAnti-collapse sweep: spread_xhd (obs_dim={obs_dim}, N={train.shape[0]})")
 
     configs = []
     for fb in free_bits_list:
@@ -182,14 +182,14 @@ def run_stepc():
     out_path = ASSETS_DIR / "collapse_barrier_full_results.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\nSaved {len(results)} Step C results to {out_path}")
+    print(f"\nSaved {len(results)} anti-collapse sweep results to {out_path}")
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Cross-scenario: FB=0.1 validation on tag_hd + comm_hd
+# Cross-scenario FB=0.1 validation on tag_hd + comm_hd
 # ═══════════════════════════════════════════════════════════════════
 
-def run_cross():
+def run_cross_validation():
     betas = [0.5, 1.0, 2.0, 4.0, 10.0]
     all_results = []
 
@@ -225,28 +225,28 @@ def run_cross():
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="beta-VAE training pipeline")
-    parser.add_argument("--phase", choices=["phase1", "stepb", "stepc", "cross"],
-                        help="Which phase to run")
-    parser.add_argument("--all", action="store_true", help="Run all phases")
+    parser.add_argument("--phase", choices=["standard", "hd_scaling", "anti_collapse", "cross_validation"],
+                        help="Which experiment to run")
+    parser.add_argument("--all", action="store_true", help="Run all experiments")
     args = parser.parse_args()
 
     print(f"Device: {DEVICE}")
 
-    if args.all or not args.phase:
-        print("Available phases: --phase phase1 | stepb | stepc | cross")
-        print("Use --all to run all phases")
-        print("\nRunning Phase 1 by default...")
-        run_phase1()
-    elif args.phase == "phase1":
-        run_phase1()
-    elif args.phase == "stepb":
-        run_stepb()
-    elif args.phase == "stepc":
-        run_stepc()
-    elif args.phase == "cross":
-        run_cross()
-    elif args.all:
-        run_phase1()
-        run_stepb()
-        run_stepc()
-        run_cross()
+    if args.all:
+        run_standard_sweep()
+        run_hd_scaling()
+        run_anti_collapse_sweep()
+        run_cross_validation()
+    elif args.phase == "standard":
+        run_standard_sweep()
+    elif args.phase == "hd_scaling":
+        run_hd_scaling()
+    elif args.phase == "anti_collapse":
+        run_anti_collapse_sweep()
+    elif args.phase == "cross_validation":
+        run_cross_validation()
+    else:
+        print("Available experiments: --phase standard | hd_scaling | anti_collapse | cross_validation")
+        print("Use --all to run all experiments")
+        print("\nRunning standard sweep by default...")
+        run_standard_sweep()

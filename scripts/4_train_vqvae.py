@@ -1,4 +1,4 @@
-"""Step 4: VQ-VAE training — codebook sweep + multi-scenario + channel robustness.
+"""VQ-VAE training — codebook sweep + multi-scenario + channel robustness.
 
 Codebook sizes: [128, 256, 512]
 Commitment costs: [0.25, 1.0]

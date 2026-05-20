@@ -1,4 +1,4 @@
-"""Step 2: Train baseline codecs (PCA, AE, Digital) on simple_spread (30-dim).
+"""Train baseline codecs (PCA, AE, Digital) on simple_spread (30-dim).
 
 PCA:   sweep LD in [2, 4, 8, 16, 32, obs_dim]
 AE:    sweep LD in [2, 4, 8, 16, 32]

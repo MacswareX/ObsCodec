@@ -1,6 +1,6 @@
 """β-VAE with KL warmup, optional free-bits, and asymmetric decoder.
 
-Phase 2a observed: 30-dim data pushes collapse cliff from β≈0.5 to β≈0.7-1.0.
+Observed: 30-dim data pushes collapse cliff from β≈0.5 to β≈0.7-1.0.
 To reach β≈2.0-4.0 (needed for semantic communication), we add:
 
   1. Free bits (Kingma et al. 2016): per-dimension KL floor λ keeps each latent

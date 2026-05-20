@@ -225,7 +225,7 @@ def generate_comm(n_agents=6, n_food=4, n_forests=2,
     return np.stack(all_samples[:n_samples], axis=0)
 
 
-# ── High-dimensional variants (Step B) ──────────────────────────
+# ── High-dimensional scenario generators ─────────────────────
 
 def generate_spread_hd(n_samples=SAMPLES_PER_SCENARIO, seed=RANDOM_SEED + 300):
     """spread with N=8, L=8 → obs_dim=48."""
@@ -255,7 +255,7 @@ SYNTHETIC_GENERATORS = {
     "simple_world_comm": generate_comm,
 }
 
-# Step B high-dimensional registry
+# High-dimensional generator registry
 SYNTHETIC_GENERATORS_HD = {
     "spread_hd": generate_spread_hd,       # 48 dim
     "tag_hd": generate_tag_hd,             # 40 dim
@@ -488,7 +488,7 @@ SYNTHETIC_GENERATORS_METRICS = {
 
 def collect_synthetic_dataset_hd(scenarios: list[str] | None = None,
                                  save: bool = True) -> dict[str, np.ndarray]:
-    """Generate high-dimensional datasets for Step B."""
+    """Generate high-dimensional datasets."""
     if scenarios is None:
         scenarios = list(SYNTHETIC_GENERATORS_HD.keys())
 

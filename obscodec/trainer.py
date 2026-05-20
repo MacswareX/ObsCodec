@@ -49,14 +49,16 @@ def train_model(
     best_state = None
     best_epoch = 0
     patience_counter = 0
-    history = {"train_loss": [], "val_loss": [], "train_recon": [], "val_recon": []}
+    history = {"train_loss": [], "val_loss": [], "train_recon": [], "val_recon": [],
+               "train_kl": [], "val_kl": []}
+    t_start = time.time()
 
     for epoch in range(1, epochs + 1):
         if hasattr(model, "set_epoch"):
             model.set_epoch(epoch)
 
         model.train()
-        train_loss, train_recon = 0.0, 0.0
+        train_loss, train_recon, train_kl = 0.0, 0.0, 0.0
         n_batches = 0
 
         for batch in train_loader:
@@ -65,18 +67,21 @@ def train_model(
             outputs = model.training_step(x)
             loss = outputs[0]
             recon = outputs[1] if len(outputs) > 1 else loss
+            kl = outputs[2] if len(outputs) > 2 else torch.tensor(float("nan"))
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
             train_loss += loss.item()
             train_recon += recon.item() if isinstance(recon, torch.Tensor) else recon
+            train_kl += kl.item() if isinstance(kl, torch.Tensor) else float("nan")
             n_batches += 1
 
         train_loss /= max(n_batches, 1)
         train_recon /= max(n_batches, 1)
+        train_kl /= max(n_batches, 1)
 
         model.eval()
-        val_loss, val_recon = 0.0, 0.0
+        val_loss, val_recon, val_kl = 0.0, 0.0, 0.0
         n_val = 0
         with torch.no_grad():
             for batch in val_loader:
@@ -84,17 +89,22 @@ def train_model(
                 outputs = model.validation_step(x)
                 loss = outputs[0]
                 recon = outputs[1] if len(outputs) > 1 else loss
+                kl = outputs[2] if len(outputs) > 2 else torch.tensor(float("nan"))
                 val_loss += loss.item()
                 val_recon += recon.item() if isinstance(recon, torch.Tensor) else recon
+                val_kl += kl.item() if isinstance(kl, torch.Tensor) else float("nan")
                 n_val += 1
 
         val_loss /= max(n_val, 1)
         val_recon /= max(n_val, 1)
+        val_kl /= max(n_val, 1)
 
         history["train_loss"].append(float(train_loss))
         history["val_loss"].append(float(val_loss))
         history["train_recon"].append(float(train_recon))
         history["val_recon"].append(float(val_recon))
+        history["train_kl"].append(float(train_kl))
+        history["val_kl"].append(float(val_kl))
 
         if verbose and (epoch % 20 == 0 or epoch == 1 or epoch == epochs):
             beta_str = ""
@@ -124,11 +134,14 @@ def train_model(
     if verbose:
         print(f"  Saved: {ckpt_path}")
 
+    training_time_s = time.time() - t_start
+
     return {
         "model": model,
         "best_epoch": best_epoch,
         "best_val_loss": best_val_loss,
         "history": history,
+        "training_time_s": training_time_s,
     }
 
 

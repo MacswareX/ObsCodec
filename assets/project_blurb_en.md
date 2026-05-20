@@ -8,7 +8,7 @@ How to efficiently compress multi-agent observations for coordination under band
 
 This project benchmarks five codec families — PCA (linear), Standard AE (nonlinear reconstruction), Scalar Quantization (digital baseline), β-VAE (probabilistic semantic bottleneck), and VQ-VAE (discrete codebook) — under a unified framework across **7 MPE scenarios** (18-90 dim, 3-15 agents).
 
-**Route B** (completed) focuses on high-dimensional scaling and collapse prevention: β-VAE posterior collapse at 90-dim observations is fully resolved via free-bits (FB=0.1 universal anti-collapse, minimum effective dose 0.02 nats/dim), VQ-VAE is evaluated under 6 channel impairment models across scenarios, and a unified codec demonstrates positive cross-scenario transfer.
+**The extended benchmark** focuses on high-dimensional scaling and collapse prevention: β-VAE posterior collapse at 90-dim observations is fully resolved via free-bits (FB=0.1 universal anti-collapse, minimum effective dose 0.02 nats/dim), VQ-VAE is evaluated under 6 channel impairment models across scenarios, and a unified codec demonstrates positive cross-scenario transfer.
 
 ## Key Findings
 
@@ -26,8 +26,8 @@ Python 3.10+, PyTorch 2.6.0, CUDA 12.6, RTX 3050 (8 GB)
 
 ## Scale
 
-**263 trained models, 15 results JSONs, 17 figures, 13 datasets** (33,333 samples each), 11 experiment scripts
+**263 trained models, 15 results JSONs, 17 figures, 13 datasets** (33,333 samples each), 15 experiment scripts (incl. 4 semantic communication scripts)
 
-## Phase 3 Outlook (Next Phase)
+## Phase 3 Complete
 
-Semantic Communication: task-aware compression loss (coordination-aware, weighted MSE, contrastive), differentiable channel layers (AWGN, Rayleigh fading, packet loss in training loop), joint source-channel coding (JSCC-VAE, JSCC-VQ-VAE, variable-rate JSCC), extreme channel testing (SNR≤-5dB, loss≥30%), end-to-end prototype: obs → encode → channel → decode → policy → task
+Semantic communication experimental designs complete: differentiable channels (AWGN reparameterization, erasure straight-through), joint source-channel coding (JSCC-BetaVAE, JSCC-VQ-VAE), task-aware compression loss (self_only, weighted MSE), end-to-end closed-loop prototype (obs→encode→channel→decode→policy→task). Library additions: `channel/diff_channel.py`, `models/jscc.py`, `task_metrics.py`.

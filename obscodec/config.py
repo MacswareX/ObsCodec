@@ -1,4 +1,4 @@
-"""Central configuration for ObsCodec Phase 2a."""
+"""Central configuration for ObsCodec."""
 
 from pathlib import Path
 
@@ -49,9 +49,9 @@ EARLY_STOP_PATIENCE = 30
 
 # ── β-VAE best-practice defaults (from Phase 1 pilots) ─────────────
 # no free_bits, warmup=150, lr=5e-5, decoder_hidden = encoder_hidden
-VAE_WARMUP = 150
+VAE_WARMUP = 200
 VAE_LR = 5e-5
-VAE_FREE_BITS = 0.0       # nats/dim — per-dimension KL floor (Kingma et al. 2016)
+VAE_FREE_BITS = 0.01      # nats/dim — per-dimension KL floor (Kingma et al. 2016)
 VAE_EPOCHS = 250
 VAE_DECODER_HIDDEN_MULT = 1  # multiplier on encoder hidden_dim (1 = symmetric)
 
