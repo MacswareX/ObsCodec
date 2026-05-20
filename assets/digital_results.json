@@ -1,0 +1,254 @@
+[
+  {
+    "mse": 5.217877388000488,
+    "encode_time_s": 0.0016822000034153461,
+    "name": "Digital-simple_spread-B1",
+    "bits_per_dim": 1,
+    "total_bits": 30,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.4126091003417969,
+    "encode_time_s": 0.0006411000213120133,
+    "name": "Digital-simple_spread-B2",
+    "bits_per_dim": 2,
+    "total_bits": 60,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.015380658209323883,
+    "encode_time_s": 0.0006693000032100827,
+    "name": "Digital-simple_spread-B4",
+    "bits_per_dim": 4,
+    "total_bits": 120,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.0008467122679576278,
+    "encode_time_s": 0.000596199999563396,
+    "name": "Digital-simple_spread-B6",
+    "bits_per_dim": 6,
+    "total_bits": 180,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 5.194975165068172e-05,
+    "encode_time_s": 0.0006591999845113605,
+    "name": "Digital-simple_spread-B8",
+    "bits_per_dim": 8,
+    "total_bits": 240,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 2.1699007390907354e-07,
+    "encode_time_s": 0.0006034999969415367,
+    "name": "Digital-simple_spread-B12",
+    "bits_per_dim": 12,
+    "total_bits": 360,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 1.6629476462526327e-08,
+    "encode_time_s": 0.0006059999868739396,
+    "name": "Digital-simple_spread-B16",
+    "bits_per_dim": 16,
+    "total_bits": 480,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 4.792295455932617,
+    "encode_time_s": 0.0015284999972209334,
+    "name": "Digital-simple_tag-B1",
+    "bits_per_dim": 1,
+    "total_bits": 24,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.4012373983860016,
+    "encode_time_s": 0.0008165999897755682,
+    "name": "Digital-simple_tag-B2",
+    "bits_per_dim": 2,
+    "total_bits": 48,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.013670065440237522,
+    "encode_time_s": 0.0007579999801237136,
+    "name": "Digital-simple_tag-B4",
+    "bits_per_dim": 4,
+    "total_bits": 96,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.0007618754752911627,
+    "encode_time_s": 0.0007196000078693032,
+    "name": "Digital-simple_tag-B6",
+    "bits_per_dim": 6,
+    "total_bits": 144,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 4.646451634471305e-05,
+    "encode_time_s": 0.0007566000276710838,
+    "name": "Digital-simple_tag-B8",
+    "bits_per_dim": 8,
+    "total_bits": 192,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 1.8268957546752063e-07,
+    "encode_time_s": 0.0007566999993287027,
+    "name": "Digital-simple_tag-B12",
+    "bits_per_dim": 12,
+    "total_bits": 288,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 3.5347522686635102e-09,
+    "encode_time_s": 0.0009783999994397163,
+    "name": "Digital-simple_tag-B16",
+    "bits_per_dim": 16,
+    "total_bits": 384,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 6.319070339202881,
+    "encode_time_s": 0.0008267999801319093,
+    "name": "Digital-simple_world_comm-B1",
+    "bits_per_dim": 1,
+    "total_bits": 36,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.46805480122566223,
+    "encode_time_s": 0.0005518999823834747,
+    "name": "Digital-simple_world_comm-B2",
+    "bits_per_dim": 2,
+    "total_bits": 72,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.015104836784303188,
+    "encode_time_s": 0.0006938999867998064,
+    "name": "Digital-simple_world_comm-B4",
+    "bits_per_dim": 4,
+    "total_bits": 144,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.0008403402171097696,
+    "encode_time_s": 0.0008557999972254038,
+    "name": "Digital-simple_world_comm-B6",
+    "bits_per_dim": 6,
+    "total_bits": 216,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 5.162929301150143e-05,
+    "encode_time_s": 0.0009139000030700117,
+    "name": "Digital-simple_world_comm-B8",
+    "bits_per_dim": 8,
+    "total_bits": 288,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 6.855206038380857e-07,
+    "encode_time_s": 0.0007704000163357705,
+    "name": "Digital-simple_world_comm-B12",
+    "bits_per_dim": 12,
+    "total_bits": 432,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 4.882962230112753e-07,
+    "encode_time_s": 0.0007261999999172986,
+    "name": "Digital-simple_world_comm-B16",
+    "bits_per_dim": 16,
+    "total_bits": 576,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 8.672847747802734,
+    "encode_time_s": 0.0025353000091854483,
+    "name": "Digital-unified-B1",
+    "bits_per_dim": 1,
+    "total_bits": 36,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.7617329955101013,
+    "encode_time_s": 0.0010073000157717615,
+    "name": "Digital-unified-B2",
+    "bits_per_dim": 2,
+    "total_bits": 72,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.025366943329572678,
+    "encode_time_s": 0.0009860000282060355,
+    "name": "Digital-unified-B4",
+    "bits_per_dim": 4,
+    "total_bits": 144,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.0012367177987471223,
+    "encode_time_s": 0.0013783999893348664,
+    "name": "Digital-unified-B6",
+    "bits_per_dim": 6,
+    "total_bits": 216,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 6.430182111216709e-05,
+    "encode_time_s": 0.0010535999899730086,
+    "name": "Digital-unified-B8",
+    "bits_per_dim": 8,
+    "total_bits": 288,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 2.5519932478346163e-07,
+    "encode_time_s": 0.0009601999772712588,
+    "name": "Digital-unified-B12",
+    "bits_per_dim": 12,
+    "total_bits": 432,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 2.1606185285349966e-08,
+    "encode_time_s": 0.0009904000035021454,
+    "name": "Digital-unified-B16",
+    "bits_per_dim": 16,
+    "total_bits": 576,
+    "scenario": "unified",
+    "obs_dim": 36
+  }
+]

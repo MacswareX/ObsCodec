@@ -1,0 +1,101 @@
+[
+  {
+    "name": "VQVAE-spread-LD4-CB128",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 4,
+    "codebook_size": 128,
+    "commitment_cost": 0.25,
+    "mse": 0.7091239094734192,
+    "rate_bits": 28.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD4-CB256",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 4,
+    "codebook_size": 256,
+    "commitment_cost": 0.25,
+    "mse": 0.682430624961853,
+    "rate_bits": 32.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD4-CB512",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 4,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.6689905524253845,
+    "rate_bits": 36.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD8-CB128",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 8,
+    "codebook_size": 128,
+    "commitment_cost": 0.25,
+    "mse": 0.721832811832428,
+    "rate_bits": 56.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD8-CB256",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 8,
+    "codebook_size": 256,
+    "commitment_cost": 0.25,
+    "mse": 0.694766104221344,
+    "rate_bits": 64.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD8-CB512",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 8,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.6806740164756775,
+    "rate_bits": 72.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD16-CB128",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 16,
+    "codebook_size": 128,
+    "commitment_cost": 0.25,
+    "mse": 0.7238022685050964,
+    "rate_bits": 112.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD16-CB256",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 16,
+    "codebook_size": 256,
+    "commitment_cost": 0.25,
+    "mse": 0.6940550804138184,
+    "rate_bits": 128.0,
+    "codebook_usage": 1.0
+  },
+  {
+    "name": "VQVAE-spread-LD16-CB512",
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "latent_dim": 16,
+    "codebook_size": 512,
+    "commitment_cost": 0.25,
+    "mse": 0.6757590174674988,
+    "rate_bits": 144.0,
+    "codebook_usage": 1.0
+  }
+]

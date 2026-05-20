@@ -1,0 +1,128 @@
+[
+  {
+    "name": "AE-simple_spread-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "mse": 0.6771088242530823
+  },
+  {
+    "name": "AE-simple_spread-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "mse": 0.4169763922691345
+  },
+  {
+    "name": "AE-simple_spread-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "mse": 0.1437539905309677
+  },
+  {
+    "name": "AE-simple_spread-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "mse": 0.036740493029356
+  },
+  {
+    "name": "AE-simple_tag-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_tag",
+    "obs_dim": 24,
+    "mse": 0.7062922120094299
+  },
+  {
+    "name": "AE-simple_tag-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_tag",
+    "obs_dim": 24,
+    "mse": 0.5116221904754639
+  },
+  {
+    "name": "AE-simple_tag-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_tag",
+    "obs_dim": 24,
+    "mse": 0.2861993908882141
+  },
+  {
+    "name": "AE-simple_tag-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_tag",
+    "obs_dim": 24,
+    "mse": 0.09755853563547134
+  },
+  {
+    "name": "AE-simple_world_comm-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36,
+    "mse": 0.4410620331764221
+  },
+  {
+    "name": "AE-simple_world_comm-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36,
+    "mse": 0.19964414834976196
+  },
+  {
+    "name": "AE-simple_world_comm-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36,
+    "mse": 0.07901289314031601
+  },
+  {
+    "name": "AE-simple_world_comm-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36,
+    "mse": 0.04237854480743408
+  },
+  {
+    "name": "AE-simple_world_comm-LD32",
+    "latent_dim": 32,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36,
+    "mse": 0.007605602033436298
+  },
+  {
+    "name": "AE-unified-LD2",
+    "latent_dim": 2,
+    "scenario": "unified",
+    "obs_dim": 36,
+    "mse": 0.5361969470977783
+  },
+  {
+    "name": "AE-unified-LD4",
+    "latent_dim": 4,
+    "scenario": "unified",
+    "obs_dim": 36,
+    "mse": 0.38185542821884155
+  },
+  {
+    "name": "AE-unified-LD8",
+    "latent_dim": 8,
+    "scenario": "unified",
+    "obs_dim": 36,
+    "mse": 0.20393940806388855
+  },
+  {
+    "name": "AE-unified-LD16",
+    "latent_dim": 16,
+    "scenario": "unified",
+    "obs_dim": 36,
+    "mse": 0.06353463232517242
+  },
+  {
+    "name": "AE-unified-LD32",
+    "latent_dim": 32,
+    "scenario": "unified",
+    "obs_dim": 36,
+    "mse": 0.0028095238376408815
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "mse": 0.5657573938369751,
+    "kl": 0.41860973834991455,
+    "regime": "OK"
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "mse": 0.8373042345046997,
+    "kl": 1.2819325923919678,
+    "regime": "OK"
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "mse": 1.5000091791152954,
+    "kl": 2.7607452869415283,
+    "regime": "OK"
+  },
+  {
+    "scenario": "unified_all",
+    "obs_dim": 90,
+    "mse": 0.9682996869087219,
+    "kl": 1.4870959520339966,
+    "regime": "OK"
+  }
+]

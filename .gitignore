@@ -1,0 +1,5 @@
+obscodec.egg-info/
+__pycache__/
+*.pyc
+checkpoints/
+.claude/

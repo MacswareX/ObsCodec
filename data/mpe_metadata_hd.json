@@ -1,0 +1,30 @@
+{
+  "spread_hd": {
+    "shape": [
+      33333,
+      48
+    ],
+    "obs_dim": 48
+  },
+  "tag_hd": {
+    "shape": [
+      33333,
+      40
+    ],
+    "obs_dim": 40
+  },
+  "comm_hd": {
+    "shape": [
+      33333,
+      60
+    ],
+    "obs_dim": 60
+  },
+  "spread_xhd": {
+    "shape": [
+      33333,
+      90
+    ],
+    "obs_dim": 90
+  }
+}

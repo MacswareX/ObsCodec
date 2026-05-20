@@ -1,0 +1,974 @@
+[
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.703765332698822,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.5427203178405762,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.5701539516448975,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.6359974145889282,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 0.8247296810150146,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.9097259044647217,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.7012367844581604,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.5417336821556091,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.568140983581543,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.6291717886924744,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 0.8144465088844299,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.9402291774749756,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.672266960144043,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.49909356236457825,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.5319700837135315,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.6075558662414551,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 0.8276772499084473,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.8623612523078918,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.6804618835449219,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.5211772918701172,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.5534843802452087,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.6283833980560303,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 0.8468510508537292,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.9207110404968262,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.671312153339386,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.5099769830703735,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.5451374053955078,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.6200982928276062,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 0.8489561676979065,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.8778910040855408,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.6579057574272156,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.49745044112205505,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.5325729250907898,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.6117315888404846,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 0.8533722162246704,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "simple_spread",
+    "obs_dim": 30,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 0.9214064478874207,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.9204747676849365,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.8576050400733948,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.8778470754623413,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.9269430041313171,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.0675705671310425,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.2804479598999023,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.9265646934509277,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.870610237121582,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.8889837265014648,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.9329096078872681,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.0648280382156372,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.3079252243041992,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.9150551557540894,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.8335368037223816,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.8614454865455627,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.9297061562538147,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.1229747533798218,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.256795048713684,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.9054582715034485,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.8444933891296387,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.8683241605758667,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.9238185286521912,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.1024372577667236,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.2903817892074585,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 0.9018133878707886,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 0.815747857093811,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 0.843501627445221,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 0.905728816986084,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.10002863407135,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.2646136283874512,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 0.897926390171051,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 0.8242982029914856,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 0.852002739906311,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 0.9198634028434753,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.1202505826950073,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_hd",
+    "obs_dim": 48,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.2916948795318604,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 1.1105504035949707,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 1.0786393880844116,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 1.1014039516448975,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 1.1537230014801025,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.3089476823806763,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.6258713006973267,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 1.1071313619613647,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 1.0798786878585815,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 1.1026915311813354,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 1.1560434103012085,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.32102370262146,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 128,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.621686577796936,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 1.1031402349472046,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 1.074828028678894,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 1.0988144874572754,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 1.1559054851531982,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.3351510763168335,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.5985389947891235,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 1.1013239622116089,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 1.0848642587661743,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 1.1051846742630005,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 1.157633662223816,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.3227025270462036,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 256,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.6239361763000488,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "clean",
+    "mse": 1.0931432247161865,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_20dB",
+    "mse": 1.0618274211883545,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_10dB",
+    "mse": 1.086753249168396,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_5dB",
+    "mse": 1.1430553197860718,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "AWGN_0dB",
+    "mse": 1.3197754621505737,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 0.25,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.6116645336151123,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "clean",
+    "mse": 1.0961591005325317,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_20dB",
+    "mse": 1.0766253471374512,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_10dB",
+    "mse": 1.0991554260253906,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_5dB",
+    "mse": 1.153678297996521,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "AWGN_0dB",
+    "mse": 1.3157519102096558,
+    "codebook_usage": 1.0
+  },
+  {
+    "scenario": "spread_xhd",
+    "obs_dim": 90,
+    "num_embeddings": 512,
+    "commitment_cost": 1.0,
+    "snr": "Rayleigh_10dB",
+    "mse": 1.653497338294983,
+    "codebook_usage": 1.0
+  }
+]

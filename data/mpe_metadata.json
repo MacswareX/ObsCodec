@@ -1,0 +1,23 @@
+{
+  "simple_spread": {
+    "shape": [
+      33333,
+      30
+    ],
+    "obs_dim": 30
+  },
+  "simple_tag": {
+    "shape": [
+      33333,
+      24
+    ],
+    "obs_dim": 24
+  },
+  "simple_world_comm": {
+    "shape": [
+      33333,
+      36
+    ],
+    "obs_dim": 36
+  }
+}

@@ -1,0 +1,170 @@
+[
+  {
+    "mse": 0.7073364853858948,
+    "encode_time_s": 0.0019238000095356256,
+    "name": "PCA-simple_spread-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.5939275622367859,
+    "encode_time_s": 0.0007696000102441758,
+    "name": "PCA-simple_spread-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.392246276140213,
+    "encode_time_s": 0.0006243000098038465,
+    "name": "PCA-simple_spread-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.058493856340646744,
+    "encode_time_s": 0.0006159000040497631,
+    "name": "PCA-simple_spread-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 4.7486022275791684e-14,
+    "encode_time_s": 0.000746600009733811,
+    "name": "PCA-simple_spread-LD30",
+    "latent_dim": 30,
+    "scenario": "simple_spread",
+    "obs_dim": 30
+  },
+  {
+    "mse": 0.7913386225700378,
+    "encode_time_s": 0.0006221999938134104,
+    "name": "PCA-simple_tag-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.6279744505882263,
+    "encode_time_s": 0.0004589000018313527,
+    "name": "PCA-simple_tag-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.38075247406959534,
+    "encode_time_s": 0.000446999998530373,
+    "name": "PCA-simple_tag-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.12992045283317566,
+    "encode_time_s": 0.0004932000010740012,
+    "name": "PCA-simple_tag-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 3.743612543441813e-14,
+    "encode_time_s": 0.0006341999978758395,
+    "name": "PCA-simple_tag-LD24",
+    "latent_dim": 24,
+    "scenario": "simple_tag",
+    "obs_dim": 24
+  },
+  {
+    "mse": 0.5424208045005798,
+    "encode_time_s": 0.0009883999882731587,
+    "name": "PCA-simple_world_comm-LD2",
+    "latent_dim": 2,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.4448624551296234,
+    "encode_time_s": 0.0006185999955050647,
+    "name": "PCA-simple_world_comm-LD4",
+    "latent_dim": 4,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.2805483341217041,
+    "encode_time_s": 0.000607599999057129,
+    "name": "PCA-simple_world_comm-LD8",
+    "latent_dim": 8,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.09183403104543686,
+    "encode_time_s": 0.0006205000099726021,
+    "name": "PCA-simple_world_comm-LD16",
+    "latent_dim": 16,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.009236717596650124,
+    "encode_time_s": 0.0007618000090587884,
+    "name": "PCA-simple_world_comm-LD32",
+    "latent_dim": 32,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 2.5539158055075742e-14,
+    "encode_time_s": 0.0007688000041525811,
+    "name": "PCA-simple_world_comm-LD36",
+    "latent_dim": 36,
+    "scenario": "simple_world_comm",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.7021787166595459,
+    "encode_time_s": 0.0032347000087611377,
+    "name": "PCA-unified-LD2",
+    "latent_dim": 2,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.5862959027290344,
+    "encode_time_s": 0.0024083000025711954,
+    "name": "PCA-unified-LD4",
+    "latent_dim": 4,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.43413037061691284,
+    "encode_time_s": 0.00272019999101758,
+    "name": "PCA-unified-LD8",
+    "latent_dim": 8,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.22486606240272522,
+    "encode_time_s": 0.0031633999897167087,
+    "name": "PCA-unified-LD16",
+    "latent_dim": 16,
+    "scenario": "unified",
+    "obs_dim": 36
+  },
+  {
+    "mse": 0.022773640230298042,
+    "encode_time_s": 0.003390500001842156,
+    "name": "PCA-unified-LD32",
+    "latent_dim": 32,
+    "scenario": "unified",
+    "obs_dim": 36
+  }
+]
