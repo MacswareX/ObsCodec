@@ -10,7 +10,8 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
 
 expected = [
-    "README.md", "LICENSE", ".gitignore", "requirements.txt", "setup.py",
+    "README.md", "README_zh.md", "TECHNICAL_REPORT.md", "LICENSE",
+    ".gitignore", "requirements.txt", "setup.py",
     "obscodec/__init__.py", "obscodec/config.py", "obscodec/metrics.py",
     "obscodec/trainer.py", "obscodec/visualize.py",
     "obscodec/models/__init__.py",

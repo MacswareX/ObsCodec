@@ -30,7 +30,7 @@ METHOD_COLORS: dict[str, str] = {
 }
 
 
-# ═══ Figure 1: Rate-Distortion ═══
+# === Figure 1: Rate-Distortion ===
 def plot_rate_distortion(
     pca_results=None, ae_results=None, digital_results=None,
     vae_results=None, vqvae_results=None,
@@ -57,9 +57,9 @@ def plot_rate_distortion(
             s = [r for r in vae_results if r["beta"] == beta]
             ax.plot([r["bandwidth"] for r in s], [r["mse"] for r in s],
                     'o-', color=c, alpha=0.85, ms=5, lw=1.2,
-                    label=f'β-VAE β={beta}')
+                    label=f'beta-VAE beta={beta}')
     if vqvae_results:
-        # VQ-VAE: 只画 commitment_cost=0.25 的点（避免图太乱）
+        # Keep the overview readable by plotting the default commitment-cost slice.
         vq_default = [r for r in vqvae_results
                       if r.get("commitment_cost", 0.25) == 0.25]
         ax.scatter([r["bandwidth"] for r in vq_default],
@@ -76,7 +76,7 @@ def plot_rate_distortion(
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 2: β-VAE Ablation Heatmap ═══
+# === Figure 2: beta-VAE Ablation Heatmap ===
 def plot_ablation_heatmap(vae_results, save_path="assets/ablation_heatmap.png"):
     latent_dims = sorted(set(r["latent_dim"] for r in vae_results))
     betas = sorted(set(r["beta"] for r in vae_results))
@@ -89,9 +89,9 @@ def plot_ablation_heatmap(vae_results, save_path="assets/ablation_heatmap.png"):
     im = ax.imshow(matrix, aspect='auto', cmap='RdYlGn_r')
     ax.set_xticks(range(len(betas))); ax.set_xticklabels(betas)
     ax.set_yticks(range(len(latent_dims))); ax.set_yticklabels(latent_dims)
-    ax.set_xlabel("β (KL weight)", fontsize=12)
+    ax.set_xlabel("beta (KL weight)", fontsize=12)
     ax.set_ylabel("Latent Dimension", fontsize=12)
-    ax.set_title("β-VAE Ablation: Latent Dim × β → MSE", fontsize=13)
+    ax.set_title("beta-VAE Ablation: Latent Dim x beta -> MSE", fontsize=13)
     for i in range(len(latent_dims)):
         for j in range(len(betas)):
             v = matrix[i, j]
@@ -103,7 +103,7 @@ def plot_ablation_heatmap(vae_results, save_path="assets/ablation_heatmap.png"):
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 3: KL Collapse ═══
+# === Figure 3: KL Collapse ===
 def plot_kl_collapse(vae_results, save_path="assets/kl_collapse.png"):
     kl_by_beta = defaultdict(list)
     mse_by_beta = defaultdict(list)
@@ -116,7 +116,7 @@ def plot_kl_collapse(vae_results, save_path="assets/kl_collapse.png"):
     mse_means = [np.mean(mse_by_beta[b]) for b in betas]
 
     fig, ax1 = plt.subplots(figsize=(9, 5.5))
-    ax1.set_xlabel('β (KL weight)', fontsize=12)
+    ax1.set_xlabel('beta (KL weight)', fontsize=12)
     ax1.set_ylabel('KL Divergence (nats)', color='tab:red', fontsize=12)
     ax1.errorbar(betas, kl_means, yerr=kl_stds, marker='o', color='tab:red',
                  capsize=4, lw=2, label='KL Divergence')
@@ -133,12 +133,12 @@ def plot_kl_collapse(vae_results, save_path="assets/kl_collapse.png"):
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2,
                loc='center left', fontsize=10, framealpha=0.9)
-    plt.title('β-VAE: KL Collapse vs Reconstruction Quality', fontsize=13)
+    plt.title('beta-VAE: KL Collapse vs Reconstruction Quality', fontsize=13)
     plt.tight_layout(); plt.savefig(save_path); plt.close()
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 4: Latent Space ═══
+# === Figure 4: Latent Space ===
 def plot_latent_space(vae_checkpoint="checkpoints/vae_ld8_b1.0.pt",
                       data_path="data/mpe_observations.npy",
                       obs_dim=18, latent_dim=8, beta=1.0,
@@ -161,13 +161,13 @@ def plot_latent_space(vae_checkpoint="checkpoints/vae_ld8_b1.0.pt",
                     c=colors, cmap='plasma', alpha=0.6, s=8)
     plt.colorbar(sc, ax=ax, label='Obs PC1')
     ax.set_xlabel("Latent PC1"); ax.set_ylabel("Latent PC2")
-    ax.set_title(f'β-VAE Latent Space (LD={latent_dim}, β={beta}, PCA)', fontsize=13)
+    ax.set_title(f'beta-VAE Latent Space (LD={latent_dim}, beta={beta}, PCA)', fontsize=13)
     ax.set_aspect('equal')
     plt.tight_layout(); plt.savefig(save_path); plt.close()
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 5: Reconstruction Comparison ═══
+# === Figure 5: Reconstruction Comparison ===
 def plot_reconstruction_comparison(data_path="data/mpe_observations.npy",
                                    save_path="assets/reconstruction_comparison.png"):
     import torch
@@ -192,7 +192,7 @@ def plot_reconstruction_comparison(data_path="data/mpe_observations.npy",
                             map_location='cpu', weights_only=True))
         vae.eval()
         with torch.no_grad(): xh, _ = vae(torch.FloatTensor(test))
-        recon_dict["β-VAE (LD=8,β=1)"] = xh.numpy()
+        recon_dict["beta-VAE (LD=8,beta=1)"] = xh.numpy()
     except Exception as e: print(f"  VAE skip: {e}")
     if not recon_dict: return
     n_methods = len(recon_dict) + 1; n_s = 5
@@ -211,7 +211,7 @@ def plot_reconstruction_comparison(data_path="data/mpe_observations.npy",
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 6: VQ-VAE Commitment Cost Sweep ═══
+# === Figure 6: VQ-VAE Commitment Cost Sweep ===
 def plot_vqvae_commitment_sweep(vqvae_results, save_path="assets/vqvae_commitment.png"):
     """Plot the VQ-VAE commitment-cost sweep."""
     cc_data = [r for r in vqvae_results if r.get("commitment_cost") is not None
@@ -226,7 +226,7 @@ def plot_vqvae_commitment_sweep(vqvae_results, save_path="assets/vqvae_commitmen
     usages = [r.get("codebook_usage", 0) for r in cc_data]
 
     fig, ax1 = plt.subplots(figsize=(9, 5.5))
-    ax1.set_xlabel('Commitment Cost (VQ-VAE "β")', fontsize=12)
+    ax1.set_xlabel('Commitment Cost (VQ-VAE "beta")', fontsize=12)
     ax1.set_ylabel('Reconstruction MSE', color='tab:blue', fontsize=12)
     ax1.plot(ccs, mses, 'D-', color='tab:blue', lw=2, ms=8, label='MSE')
     ax1.tick_params(axis='y', labelcolor='tab:blue')
@@ -248,7 +248,7 @@ def plot_vqvae_commitment_sweep(vqvae_results, save_path="assets/vqvae_commitmen
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 7: VQ-VAE Codebook Usage Heatmap ═══
+# === Figure 7: VQ-VAE Codebook Usage Heatmap ===
 def plot_vqvae_usage_heatmap(vqvae_results, save_path="assets/vqvae_usage_heatmap.png"):
     """Plot which VQ-VAE configurations use their codebooks."""
     default = [r for r in vqvae_results
@@ -284,7 +284,7 @@ def plot_vqvae_usage_heatmap(vqvae_results, save_path="assets/vqvae_usage_heatma
     print(f"wrote {save_path}")
 
 
-# ═══ Figure 8: Pareto Frontier ═══
+# === Figure 8: Pareto Frontier ===
 def plot_pareto_frontier(
     pca_results=None, ae_results=None, digital_results=None,
     vae_results=None, vqvae_results=None,
@@ -318,13 +318,14 @@ def plot_pareto_frontier(
     if vae_results:
         bx, mx = pareto_xy(vae_results)
         ax.plot(bx, mx, 'o-', color=METHOD_COLORS["vae"],
-                label='β-VAE (budgeted best)', lw=2, ms=7)
+                label='beta-VAE (budgeted best)', lw=2, ms=7)
     if vqvae_results:
         bx, mx = pareto_xy(vqvae_results)
         ax.plot(bx, mx, '*-', color=METHOD_COLORS["vqvae"],
                 label='VQ-VAE (budgeted best)', lw=2, ms=10)
 
-    # 标注原始带宽（576 bits = 18 dim × 32 bits）
+    # (576 bits = 18 dim x 32 bits)
+    # Mark the raw observation budget: 18 dimensions x 32 bits = 576 bits.
     ax.axvline(x=576, color='black', linestyle=':', alpha=0.4, linewidth=1)
     ax.text(576, ax.get_ylim()[1]*0.95, 'Raw (576b)', ha='right', fontsize=9, alpha=0.5)
 
@@ -341,7 +342,7 @@ def plot_pareto_frontier(
     print(f"wrote {save_path}")
     
     
-    # ═══ 统一入口 ═══
+    # Unified figure-generation entry point.
 def generate_all() -> None:
     os.makedirs("assets", exist_ok=True)
 

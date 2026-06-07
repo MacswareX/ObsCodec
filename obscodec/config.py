@@ -3,9 +3,9 @@ from dataclasses import dataclass
 import math
 import torch
 
-# ── Physical constants ──────────────────────────────────────────────
+# -- Physical constants ----------------------------------------------
 BITS_PER_FLOAT32: int = 32
-NATS_TO_BITS: float = 1.0 / math.log(2)   # ≈ 1.442695
+NATS_TO_BITS: float = 1.0 / math.log(2)   # ~ 1.442695
 COLLAPSE_KL_THRESHOLD: float = 0.05
 EPS: float = 1e-8
 MIN_COMPRESSED_BITS: float = 0.01

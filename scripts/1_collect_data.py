@@ -1,4 +1,4 @@
-"""收集MPE多智能体观测 — PettingZoo 1.24 适配"""
+"""Collect MPE multi-agent observations - PettingZoo 1.24 adapter"""
 import numpy as np
 from pettingzoo.mpe import simple_spread_v3
 from tqdm import tqdm
@@ -16,11 +16,11 @@ def collect_observations(n_samples: int = N_SAMPLES) -> np.ndarray:
     obs_dict, _ = env.reset()
     first_agent = list(obs_dict.keys())[0]
     obs_dim = obs_dict[first_agent].shape[0]
-    print(f"环境: simple_spread, {N_AGENTS} agents, obs_dim={obs_dim}")
+    print(f"Environment: simple_spread, {N_AGENTS} agents, obs_dim={obs_dim}")
     
     all_obs = np.zeros((n_samples, obs_dim), dtype=np.float32)
     idx = 0
-    pbar = tqdm(total=n_samples, desc="收集观测")
+    pbar = tqdm(total=n_samples, desc="Collect observations")
     
     while idx < n_samples:
         obs_dict, _ = env.reset()
@@ -46,7 +46,7 @@ def collect_observations(n_samples: int = N_SAMPLES) -> np.ndarray:
     os.makedirs("data", exist_ok=True)
     np.save("data/mpe_observations.npy", all_obs)
     print(f"Saved {idx} samples -> data/mpe_observations.npy")
-    print(f"  统计: mean={all_obs.mean():.4f}, std={all_obs.std():.4f}")
+    print(f"  Stats: mean={all_obs.mean():.4f}, std={all_obs.std():.4f}")
     return all_obs
 
 if __name__ == "__main__":

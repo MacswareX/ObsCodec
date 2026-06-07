@@ -1,7 +1,4 @@
-"""
-scripts/2_train_baselines.py
-一键训练所有baseline
-"""
+"""Train PCA, autoencoder, and digital quantization baselines."""
 import numpy as np
 import torch
 import json
@@ -19,7 +16,6 @@ from obscodec.trainer import train_model
 
 
 def main():
-    # 加载数据
     data_path = "data/mpe_observations.npy"
     if not os.path.exists(data_path):
         raise FileNotFoundError(
@@ -27,19 +23,18 @@ def main():
             "Run 'python scripts/1_collect_data.py' first."
         )
     data = np.load(data_path)
-    print(f"数据: {data.shape}")
+    print(f"Data: {data.shape}")
     
-    # 划分
     train_data, val_data = train_test_split(data, test_size=0.2, random_state=42)
     val_data, test_data = train_test_split(val_data, test_size=0.5, random_state=42)
     
     obs_dim = data.shape[1]
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"设备: {device}, obs_dim={obs_dim}")
+    print(f"Device: {device}, obs_dim={obs_dim}")
     
     results = {}
     
-    # ─── Baseline 1: PCA（多组） ───
+    # Baseline 1: PCA.
     print("\n" + "="*60)
     print("Baseline 1: PCA")
     pca_results = []
@@ -53,7 +48,7 @@ def main():
         print(f"  PCA-{n_comp:2d}: MSE={mse:.4f}, BW={bw:.0f} bits")
     results["pca"] = pca_results
     
-    # ─── Baseline 2: Standard AE（多组） ───
+    # Baseline 2: standard autoencoder.
     print("\n" + "="*60)
     print("Baseline 2: Standard Autoencoder")
     ae_results = []
@@ -63,7 +58,6 @@ def main():
             ae, train_data, val_data, epochs=200, device=device,
             model_name=f"AE-{latent_dim}"
         )
-        # 在测试集上评估
         ae.eval()
         ae = ae.to(device)
         with torch.no_grad():
@@ -73,11 +67,10 @@ def main():
         bw = ae.equivalent_bandwidth
         ae_results.append({"latent_dim": latent_dim, "mse": float(mse), "bandwidth": float(bw)})
         print(f"  AE-{latent_dim:2d}: MSE={mse:.4f}, BW={bw:.0f} bits")
-        # 保存最好的模型
         torch.save(ae.state_dict(), f"checkpoints/ae_ld{latent_dim}.pt")
     results["ae"] = ae_results
     
-    # ─── Baseline 3: Digital量化 ───
+    # Baseline 3: digital quantization.
     print("\n" + "="*60)
     print("Baseline 3: Digital Quantization")
     dig_results = []
@@ -104,7 +97,6 @@ def main():
             torch.save(dig.state_dict(), f"checkpoints/dig_ld{ld}_b{bits}.pt")
     results["digital"] = dig_results
     
-    # 保存结果
     os.makedirs("assets", exist_ok=True)
     with open("assets/baseline_results.json", "w") as f:
         json.dump(results, f, indent=2)

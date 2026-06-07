@@ -1,7 +1,7 @@
-"""β-VAE codec for multi-agent observation compression.
+"""beta-VAE codec for multi-agent observation compression.
 
 Architecture decisions (Higgins et al. 2017, Burgess et al. 2018):
-- Encoder: BatchNorm → 2-layer MLP → mu (linear), logvar (clamped for stability)
+- Encoder: BatchNorm -> 2-layer MLP -> mu (linear), logvar (clamped for stability)
 - Decoder: capacity-constrained (hidden_dim/2) to prevent premature posterior collapse
 - KL annealing: linear warmup over configurable burn-in epochs (Bowman et al. 2016)
 """
@@ -17,7 +17,7 @@ from obscodec.config import BITS_PER_FLOAT32, NATS_TO_BITS
 
 
 def _kl_normal(mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
-    """KL(N(mu,σ²) || N(0,I)) — batched, returns per-sample nats."""
+    """KL(N(mu,sigma^2) || N(0,I)) - batched, returns per-sample nats."""
     return -0.5 * torch.sum(1.0 + logvar - mu.pow(2) - logvar.exp(), dim=-1)
 
 
@@ -135,7 +135,7 @@ class BetaVAE(nn.Module):
             return _kl_normal(self._mu, self._logvar).mean().item()
 
     def kl_nats(self, x: torch.Tensor) -> float:
-        """Mean KL divergence in nats for a batch — no side effects."""
+        """Mean KL divergence in nats for a batch - no side effects."""
         self.eval()
         with torch.no_grad():
             mu, logvar = self.encoder(x)

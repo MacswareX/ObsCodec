@@ -1,4 +1,4 @@
-"""一键生成全部图表"""
+"""Generate all available ObsCodec figures."""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))

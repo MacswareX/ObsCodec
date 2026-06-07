@@ -74,7 +74,7 @@ def main():
 
     results = []
 
-    # Phase 1: Codebook Size × Latent Dim grid
+    # Phase 1: Codebook Size x Latent Dim grid
     print("\n" + "=" * 60)
     print("Phase 1: Codebook Size x Latent Dim (cc=0.25, EMA)")
     for cs in [32, 64, 128, 256, 512]:

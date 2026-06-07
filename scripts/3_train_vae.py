@@ -1,4 +1,4 @@
-"""β-VAE training + β × latent_dim ablation with KL annealing."""
+"""beta-VAE training + beta x latent_dim ablation with KL annealing."""
 import numpy as np
 import torch
 import torch.nn.functional as F

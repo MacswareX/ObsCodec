@@ -98,7 +98,7 @@ def main() -> None:
     lines.append("")
     lines.append(
         "> **Metric note**: nominal bandwidth counts the serialized latent size. "
-        "β-VAE effective rate is the KL estimate in bits and is not the same as "
+        "beta-VAE effective rate is the KL estimate in bits and is not the same as "
         "a deployed packet size without entropy coding."
     )
     lines.append("")
@@ -137,8 +137,8 @@ def main() -> None:
         record = next(r for r in vae if r["latent_dim"] == 8 and r["beta"] == beta)
         add_method_row(
             lines,
-            f"β-VAE ({label})",
-            f"LD=8, β={beta}",
+            f"beta-VAE ({label})",
+            f"LD=8, beta={beta}",
             record["mse"],
             record["bandwidth"],
             record["rate_bits"],
@@ -156,18 +156,18 @@ def main() -> None:
     lines.append("")
     lines.append(
         "**Primary takeaway**: Digital quantization is the strongest pure "
-        "reconstruction baseline at >=128 nominal bits. β-VAE provides a tunable "
+        "reconstruction baseline at >=128 nominal bits. beta-VAE provides a tunable "
         "information rate through the KL divergence, with the free-bits floor (0.01 "
-        "nats/dim) preventing complete posterior collapse while allowing a 300× KL "
-        "dynamic range. The semantic bottleneck regime (β=0.01) gives 6–17 effective "
+        "nats/dim) preventing complete posterior collapse while allowing a 300x KL "
+        "dynamic range. The semantic bottleneck regime (beta=0.01) gives 6-17 effective "
         "bits depending on latent dimension."
     )
     lines.append("")
 
-    lines.append("## Table 2: β-VAE LD=8 Rate-Distortion Sweep")
+    lines.append("## Table 2: beta-VAE LD=8 Rate-Distortion Sweep")
     lines.append("")
     lines.append(
-        "| β | MSE | PSNR (dB) | Nominal BW | Eff. Rate (bits) | KL (nats) | Regime |"
+        "| beta | MSE | PSNR (dB) | Nominal BW | Eff. Rate (bits) | KL (nats) | Regime |"
     )
     lines.append(
         "|---|-----|-----------|------------|------------------|-----------|--------|"
@@ -248,7 +248,7 @@ def main() -> None:
 
     lines.append("## Table 4: Best MSE Within Nominal Bandwidth Budgets")
     lines.append("")
-    lines.append("| Budget | PCA | Standard AE | Digital Quant. | β-VAE | VQ-VAE |")
+    lines.append("| Budget | PCA | Standard AE | Digital Quant. | beta-VAE | VQ-VAE |")
     lines.append("|--------|-----|-------------|----------------|-------|--------|")
     method_sets = [
         baseline["pca"],
@@ -271,16 +271,16 @@ def main() -> None:
     lines.append("## Interpretation Notes")
     lines.append("")
     lines.append(
-        "- **β-VAE posterior collapse behavior**: With the corrected architecture "
+        "- **beta-VAE posterior collapse behavior**: With the corrected architecture "
         "(no tanh on mu, BatchNorm encoder, halved decoder capacity, KL annealing over "
         "50 epochs, free-bits=0.01 nats/dim), the posterior never collapses to zero KL. "
-        "The KL shows a smooth 300× decline from β=0.001 (KL≈19.5 nats, 28 bits) to "
-        "β=0.5 (KL≈0.09 nats, 0.1 bits) before reaching the free-bits floor. "
-        "At β ≥ 1.0, KL stabilizes at ~0.06–0.07 nats (~0.1 effective bits) and MSE "
+        "The KL shows a smooth 300x decline from beta=0.001 (KL~19.5 nats, 28 bits) to "
+        "beta=0.5 (KL~0.09 nats, 0.1 bits) before reaching the free-bits floor. "
+        "At beta >= 1.0, KL stabilizes at ~0.06-0.07 nats (~0.1 effective bits) and MSE "
         "approaches the data variance (~0.545), consistent with theoretical expectations "
-        "for the β→∞ limit. The free-bits floor prevents complete gradient collapse "
+        "for the beta->inf limit. The free-bits floor prevents complete gradient collapse "
         "while allowing the KL to span a wide dynamic range. "
-        "The useful operating range (β=0.001–0.1) provides tunable rate-distortion "
+        "The useful operating range (beta=0.001-0.1) provides tunable rate-distortion "
         "tradeoffs consistent with Higgins et al. (2017) and Burgess et al. (2018)."
     )
     lines.append(
@@ -289,7 +289,7 @@ def main() -> None:
         "(LD=2, codebook_size=256) achieving 8-bit discrete latent codes."
     )
     lines.append(
-        "- The KL rate estimate from β-VAE is an information measure; deploying it "
+        "- The KL rate estimate from beta-VAE is an information measure; deploying it "
         "as an actual channel rate requires entropy coding or packetization."
     )
     lines.append(
