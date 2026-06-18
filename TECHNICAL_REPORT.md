@@ -1,7 +1,7 @@
 # ObsCodec: Learned Observation Compression for Multi-Agent Systems
 
-Author: MacswareX
-Draft prepared: 2026-06-07
+Author: MacswareX  
+Draft prepared: 2026-06-07  
 
 Repository: https://github.com/MacswareX/ObsCodec
 
